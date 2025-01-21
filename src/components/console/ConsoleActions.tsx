@@ -38,6 +38,8 @@ const ConsoleActions = ({ selectedFolderId }) => {
     inputRef.current?.click();
   };
 
+  console.log(selectedFolderId);
+
   return (
     <>
       <div className="flex space-x-2">
