@@ -2,6 +2,7 @@ import { FC } from "react";
 
 const TextField: FC<TextFieldProps> = ({
   label,
+  type,
   placeholder,
   handleChange,
   name,
@@ -13,7 +14,7 @@ const TextField: FC<TextFieldProps> = ({
         <span className="label-text text-gray-700">{label}</span>
       </div>
       <input
-        type="text"
+        type={type || "text"}
         placeholder={placeholder}
         className="input w-full border focus:outline-none focus:ring"
         onChange={handleChange}

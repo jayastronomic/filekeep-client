@@ -41,7 +41,10 @@ const Home = () => {
       <div className="grid grid-cols-2 grid-rows-2 gap-4 flex-1">
         {icons.map((icon) => {
           return (
-            <div className="card bg-base-100 flex flex-col justify-center items-center rounded-lg shadow-md border">
+            <div
+              key={icon.title}
+              className="card bg-base-100 flex flex-col justify-center items-center rounded-lg shadow-md border"
+            >
               <div className="text-[#ff914d]">{icon.component}</div>
               <div className="pt-2">{icon.title}</div>
             </div>

@@ -1,9 +1,10 @@
 import { Link } from "react-router";
 import TextField from "../utility/TextField";
 import { useLocation } from "react-router";
-import { ChangeEvent, FC, FormEvent, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useContext, useState } from "react";
 import AuthEndpoint from "../../endpoints/AuthEndpoint";
 import { useMutation } from "@tanstack/react-query";
+import { AuthContext } from "../contexts/AuthContext";
 
 const SignUp: FC<SignUpProps> = ({ handleChange, user }) => {
   const { email, password, passwordConfirmation } = user;
@@ -16,6 +17,7 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user }) => {
         value={email || ""}
       />
       <TextField
+        type="password"
         label="password"
         name="password"
         handleChange={handleChange}
@@ -54,6 +56,7 @@ const LogIn: FC<LogInPrps> = ({ handleChange, user }) => {
         value={email || ""}
       />
       <TextField
+        type="password"
         label="password"
         name="password"
         handleChange={handleChange}
@@ -76,21 +79,21 @@ const LogIn: FC<LogInPrps> = ({ handleChange, user }) => {
 };
 
 const Registrations = () => {
-  const { pathname } = useLocation();
-  const title = pathname === "/register" ? "Sign up" : "Log in";
-  const endpoint =
-    pathname === "/register" ? AuthEndpoint.register : AuthEndpoint.login;
-
   const [user, setUser] = useState<User>({
     email: "",
     password: "",
     passwordConfirmation: "",
   });
+  const { pathname } = useLocation();
+  const { logIn } = useContext(AuthContext);
+  const title = pathname === "/register" ? "Sign up" : "Log in";
+  const endpoint =
+    pathname === "/register" ? AuthEndpoint.register : AuthEndpoint.login;
 
-  const mutate = useMutation({
+  const mutation = useMutation({
     mutationFn: endpoint,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: ({ data, status }) => {
+      if (status === "SUCCESS") logIn(data);
     },
   });
 
@@ -105,7 +108,7 @@ const Registrations = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (pathname === "/login") delete user.passwordConfirmation;
-    mutate.mutate(user);
+    mutation.mutate(user);
   };
 
   return (
