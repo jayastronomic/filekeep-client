@@ -11,12 +11,17 @@ declare global {
   interface Folder {
     id: string;
     folderName: string;
-    parentFolder: Folder;
+    parentFolder: Folder | null;
     subFolders: Folder[];
-    files: File[];
+    files: FKFile[];
   }
 
-  interface File {
+  interface NewFolder {
+    folderName: string;
+    parentId: string;
+  }
+
+  interface FKFile {
     id: string;
     fileName: string;
     size: number;
@@ -28,6 +33,15 @@ declare global {
     authUser: User | null;
     setAuthUser: Dispatch<SetStateAction<AuthContextData["authUser"]>>;
     logIn(token: string): void;
+  }
+
+  interface ConsoleContextData {
+    rootFolder: Folder;
+    isLoading: boolean;
+  }
+
+  interface ConsoleProviderProps {
+    children: ReactNode;
   }
 
   interface TextFieldProps {
@@ -63,7 +77,11 @@ declare global {
   interface ConsoleActionProps {
     label: string;
     icon: ReactNode;
-    clickHandler: (() => void) | null;
+    action: (() => void) | (() => Dispatch<SetStateAction<boolean>>);
+  }
+
+  interface ConsoleActionsProps {
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
   }
 
   type ConsoleAction = {
@@ -71,16 +89,16 @@ declare global {
     icon: ReactNode;
   };
 
-  interface ConsoleAssetsProps {
-    rootFolder: Folder;
-  }
-
   interface ConsoleFileContainerProps {
-    files: File[];
+    files: FKFile[];
   }
 
   interface ConsoleFolderContainerProps {
     folders: Folder[];
+  }
+
+  interface CreateFolderModalProps {
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
   }
 }
 

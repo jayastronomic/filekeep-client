@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 
 const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [authUser, setAuthUser] = useState<User | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const { data, isSuccess } = useQuery({
     queryKey: ["is-logged-in"],
@@ -21,7 +20,6 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
   const logIn = (token: string) => {
     localStorage.setItem("token", token);
-    setIsLoggedIn(true);
   };
 
   return (

@@ -10,7 +10,7 @@ import ConsoleLayout from "./components/layout/ConsoleLayout";
 
 function App() {
   const { authUser } = useContext(AuthContext);
-  console.log(authUser);
+
   return (
     <BrowserRouter>
       {authUser ? (

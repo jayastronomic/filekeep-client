@@ -1,11 +1,15 @@
 import { MdOutlineFileUpload } from "react-icons/md";
 import { MdCreateNewFolder } from "react-icons/md";
 import ConsoleAction from "./ConsoleAction";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, FC, useContext, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import FileEndpoint from "../../endpoints/FileEndpoint";
+import { useLocation } from "react-router";
+import { ConsoleContext } from "../contexts/ConsoleContext";
 
-const ConsoleActions = ({ selectedFolderId }) => {
+const ConsoleActions: FC<ConsoleActionsProps> = ({ setIsOpen }) => {
+  const { rootFolder } = useContext(ConsoleContext);
+  const { pathname } = useLocation();
   const inputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const actions: ConsoleAction[] = [
@@ -15,8 +19,7 @@ const ConsoleActions = ({ selectedFolderId }) => {
 
   const mutatation = useMutation({
     mutationFn: FileEndpoint.upload,
-    onSuccess({ data }) {
-      console.log(data);
+    onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["get-root"] });
     },
     onError(e) {
@@ -29,7 +32,9 @@ const ConsoleActions = ({ selectedFolderId }) => {
       const selectedFile = e.target.files[0];
       const formData = new FormData();
       formData.append("file", selectedFile);
-      formData.append("parent_id", selectedFolderId);
+      if (pathname === "/home") {
+        formData.append("parent_id", rootFolder.id);
+      }
       mutatation.mutate(formData);
     }
   };
@@ -38,8 +43,6 @@ const ConsoleActions = ({ selectedFolderId }) => {
     inputRef.current?.click();
   };
 
-  console.log(selectedFolderId);
-
   return (
     <>
       <div className="flex space-x-2">
@@ -47,7 +50,7 @@ const ConsoleActions = ({ selectedFolderId }) => {
           return (
             <ConsoleAction
               key={label}
-              clickHandler={label === "Upload" ? clickHandler : null}
+              action={label === "Upload" ? clickHandler : () => setIsOpen(true)}
               label={label}
               icon={icon}
             />

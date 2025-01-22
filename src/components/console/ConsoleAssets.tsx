@@ -1,10 +1,12 @@
-import { FC } from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
 import ConsoleFolderContainer from "./ConsoleFolderContainer";
 import { ConsoleFileContainer } from "./ConsoleFileContainer";
+import { useContext } from "react";
+import { ConsoleContext } from "../contexts/ConsoleContext";
 
-const ConsoleAssets: FC<ConsoleAssetsProps> = ({ rootFolder }) => {
-  const { files, subFolders } = rootFolder || { files: [], subFolders: [] };
+const ConsoleAssets = () => {
+  const { rootFolder } = useContext(ConsoleContext);
+  const { files, subFolders } = rootFolder;
 
   if (files.length === 0 && subFolders.length === 0) {
     return (
@@ -22,8 +24,8 @@ const ConsoleAssets: FC<ConsoleAssetsProps> = ({ rootFolder }) => {
   return (
     <div className="flex flex-col">
       <div className="font-bold border-b">Name</div>
-      <ConsoleFolderContainer folders={subFolders} />
-      <ConsoleFileContainer files={files} />
+      <ConsoleFolderContainer folders={subFolders || []} />
+      <ConsoleFileContainer files={files || []} />
     </div>
   );
 };
