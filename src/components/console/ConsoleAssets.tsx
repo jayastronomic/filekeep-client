@@ -1,6 +1,6 @@
 import { MdOutlineFileUpload } from "react-icons/md";
 import ConsoleFolderContainer from "./ConsoleFolderContainer";
-import { ConsoleFileContainer } from "./ConsoleFileContainer";
+import ConsoleFileContainer from "./ConsoleFIleContainer";
 import { useContext } from "react";
 import { ConsoleContext } from "../contexts/ConsoleContext";
 

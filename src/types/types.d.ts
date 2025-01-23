@@ -31,8 +31,6 @@ declare global {
 
   interface AuthContextData {
     authUser: User | null;
-    setAuthUser: Dispatch<SetStateAction<AuthContextData["authUser"]>>;
-    logIn(token: string): void;
   }
 
   interface ConsoleContextData {
@@ -98,6 +96,10 @@ declare global {
   }
 
   interface CreateFolderModalProps {
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
+  }
+
+  interface ProfileMenuProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
   }
 }

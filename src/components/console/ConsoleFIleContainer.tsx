@@ -4,9 +4,7 @@ import { RiFileList2Fill } from "react-icons/ri";
 import { FaImage } from "react-icons/fa6";
 import { TbPdf } from "react-icons/tb";
 
-export const ConsoleFileContainer: FC<ConsoleFileContainerProps> = ({
-  files,
-}) => {
+const ConsoleFileContainer: FC<ConsoleFileContainerProps> = ({ files }) => {
   if (files.length === 0) return <></>;
 
   const getFileIcon = (mimeType: string) => {
@@ -38,3 +36,5 @@ export const ConsoleFileContainer: FC<ConsoleFileContainerProps> = ({
     </div>
   );
 };
+
+export default ConsoleFileContainer;

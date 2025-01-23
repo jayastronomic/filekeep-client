@@ -1,32 +1,35 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import AuthEndpoint from "../../endpoints/AuthEndpoint";
 import { useQuery } from "@tanstack/react-query";
 
 const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
-  const [authUser, setAuthUser] = useState<User | null>(null);
-
-  const { data, isSuccess } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["is-logged-in"],
-    queryFn: AuthEndpoint.isLoggedIn,
+    queryFn: () => {
+      console.log("fetching user...");
+      return AuthEndpoint.isLoggedIn();
+    },
+    retry: false,
   });
 
-  useEffect(() => {
-    if (isSuccess && data) {
-      const { data: user } = data;
-      setAuthUser(user);
-    }
-  }, [isSuccess, data]);
+  if (isLoading) return <div>Loading...</div>;
 
-  const logIn = (token: string) => {
-    localStorage.setItem("token", token);
-  };
+  if (isError)
+    return (
+      <AuthContext.Provider value={{ authUser: null }}>
+        {children}
+      </AuthContext.Provider>
+    );
 
-  return (
-    <AuthContext.Provider value={{ authUser, setAuthUser, logIn }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  if (data) {
+    const { data: authUser } = data;
+    return (
+      <AuthContext.Provider value={{ authUser }}>
+        {children}
+      </AuthContext.Provider>
+    );
+  }
 };
 
 export default AuthProvider;

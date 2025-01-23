@@ -1,10 +1,9 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import TextField from "../utility/TextField";
 import { useLocation } from "react-router";
-import { ChangeEvent, FC, FormEvent, useContext, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import AuthEndpoint from "../../endpoints/AuthEndpoint";
-import { useMutation } from "@tanstack/react-query";
-import { AuthContext } from "../contexts/AuthContext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const SignUp: FC<SignUpProps> = ({ handleChange, user }) => {
   const { email, password, passwordConfirmation } = user;
@@ -84,8 +83,9 @@ const Registrations = () => {
     password: "",
     passwordConfirmation: "",
   });
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { pathname } = useLocation();
-  const { logIn } = useContext(AuthContext);
   const title = pathname === "/register" ? "Sign up" : "Log in";
   const endpoint =
     pathname === "/register" ? AuthEndpoint.register : AuthEndpoint.login;
@@ -93,7 +93,10 @@ const Registrations = () => {
   const mutation = useMutation({
     mutationFn: endpoint,
     onSuccess: ({ data, status }) => {
-      if (status === "SUCCESS") logIn(data);
+      if (status === "SUCCESS") {
+        localStorage.setItem("token", data);
+        queryClient.invalidateQueries({ queryKey: ["is-logged-in"] });
+      }
     },
   });
 
