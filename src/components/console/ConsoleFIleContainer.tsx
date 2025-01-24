@@ -3,6 +3,8 @@ import { Link } from "react-router";
 import { RiFileList2Fill } from "react-icons/ri";
 import { FaImage } from "react-icons/fa6";
 import { TbPdf } from "react-icons/tb";
+import { TfiDownload } from "react-icons/tfi";
+import PopUp from "./PopUp";
 
 const ConsoleFileContainer: FC<ConsoleFileContainerProps> = ({ files }) => {
   if (files.length === 0) return <></>;
@@ -26,10 +28,16 @@ const ConsoleFileContainer: FC<ConsoleFileContainerProps> = ({ files }) => {
         return (
           <div
             key={file.fileKey}
-            className="flex border-b py-4 hover:bg-gray-100 text-gray-800 items-center space-x-2 px-2"
+            className="flex border-b py-4 hover:bg-gray-100 text-gray-800 items-center justify-between px-2"
           >
-            <div className="text-2xl">{getFileIcon(file.mimeType)}</div>
-            <Link to="#">{file.fileName}</Link>
+            <div className="flex space-x-2">
+              <div className="text-2xl">{getFileIcon(file.mimeType)}</div>
+              <Link to="#">{file.fileName}</Link>
+            </div>
+            <button className="flex items-center justify-center relative hover:bg-gray-300 h-10 w-10 rounded transition group">
+              <TfiDownload />
+              <PopUp />
+            </button>
           </div>
         );
       })}

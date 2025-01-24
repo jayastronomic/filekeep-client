@@ -2,15 +2,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { FC, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
-import { useNavigate } from "react-router";
 
 const ProfileMenu: FC<ProfileMenuProps> = ({ setIsOpen }) => {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const handleLogOut = () => {
     localStorage.removeItem("token");
     queryClient.invalidateQueries({ queryKey: ["is-logged-in"] });
-    navigate("/login");
   };
   return (
     <div className="fixed inset-0 z-[1] h-full w-full overflow-hidden">
@@ -33,11 +30,11 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ setIsOpen }) => {
 const ConsoleNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <nav className="w-full flex justify-between p-6 border-b shadow">
+    <nav className="w-full flex items-center justify-between p-4 border-b shadow">
       <div className="flex text-lg">
         <FaBars />
       </div>
-      <div className="flex text-2xl">
+      <div className="flex justify-center text-2xl hover:bg-gray-200 h-10 w-10 rounded-full transition hover:text-gray-700 hover:shadow">
         <button onClick={() => setIsOpen(true)}>
           <FaUserCircle />
         </button>

@@ -4,7 +4,7 @@ import AuthEndpoint from "../../endpoints/AuthEndpoint";
 import { useQuery } from "@tanstack/react-query";
 
 const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isError } = useQuery({
     queryKey: ["is-logged-in"],
     queryFn: () => {
       console.log("fetching user...");
@@ -12,8 +12,6 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     },
     retry: false,
   });
-
-  if (isLoading) return <div>Loading...</div>;
 
   if (isError)
     return (

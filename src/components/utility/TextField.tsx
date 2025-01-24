@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useLocation } from "react-router";
 
 const TextField: FC<TextFieldProps> = ({
   label,
@@ -8,6 +9,7 @@ const TextField: FC<TextFieldProps> = ({
   name,
   value,
 }) => {
+  const { pathname } = useLocation();
   return (
     <label className="form-control w-full">
       <div className="label">
@@ -17,6 +19,9 @@ const TextField: FC<TextFieldProps> = ({
         type={type || "text"}
         placeholder={placeholder}
         className="input w-full border focus:outline-none focus:ring"
+        autoComplete={
+          type === "password" && pathname === "/login" ? "current-password" : ""
+        }
         onChange={handleChange}
         name={name}
         value={value}

@@ -15,7 +15,9 @@ const ConsoleAssets = () => {
           <MdOutlineFileUpload className="text-gray-500" size={80} />
         </div>
         <div>
-          <span className="text-gray-700">Drop files here to upload</span>
+          <div className="text-gray-700 text-center">
+            There are no files. Upload a file or create folder
+          </div>
         </div>
       </div>
     );

@@ -31,6 +31,7 @@ declare global {
 
   interface AuthContextData {
     authUser: User | null;
+    isLoading?: boolean;
   }
 
   interface ConsoleContextData {

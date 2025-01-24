@@ -68,9 +68,9 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({ setIsOpen }) => {
             </button>
             <button
               disabled={folder.folderName.length === 0}
-              className={`text-white font-semibold  p-2 rounded-md opacity-30 ${
+              className={`text-white font-semibold  p-2 rounded-md ${
                 folder.folderName.length === 0
-                  ? "bg-gray-700"
+                  ? "bg-gray-700 opacity-30"
                   : "bg-black opacity-100"
               }`}
             >

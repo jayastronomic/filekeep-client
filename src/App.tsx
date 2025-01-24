@@ -23,6 +23,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/register" element={<Registrations />} />
           <Route path="/login" element={<Registrations />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </UnauthenticatedTemplate>
     </BrowserRouter>

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import TextField from "../utility/TextField";
 import { useLocation } from "react-router";
 import { ChangeEvent, FC, FormEvent, useState } from "react";
@@ -23,6 +23,7 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user }) => {
         value={password || ""}
       />
       <TextField
+        type="password"
         label="password confirmation"
         name="passwordConfirmation"
         handleChange={handleChange}
@@ -83,7 +84,6 @@ const Registrations = () => {
     password: "",
     passwordConfirmation: "",
   });
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { pathname } = useLocation();
   const title = pathname === "/register" ? "Sign up" : "Log in";
@@ -97,6 +97,9 @@ const Registrations = () => {
         localStorage.setItem("token", data);
         queryClient.invalidateQueries({ queryKey: ["is-logged-in"] });
       }
+    },
+    onError(e) {
+      console.log(e);
     },
   });
 

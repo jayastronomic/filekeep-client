@@ -13,6 +13,7 @@ const AuthenticatedTemplate = ({ children }: { children: ReactNode }) => {
     <Routes>
       <Route path="/register" element={<Navigate to={"/home"} />} />
       <Route path="/login" element={<Navigate to={"/home"} />} />
+      <Route path="/" element={<Navigate to={"/home"} />} />
       {children}
     </Routes>
   ); // Render children if authenticated
