@@ -103,6 +103,10 @@ declare global {
   interface ProfileMenuProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
   }
+
+  interface ConsoleFolderCardProps {
+    folder: Folder;
+  }
 }
 
 export {};

@@ -5,6 +5,7 @@ import { FaImage } from "react-icons/fa6";
 import { TbPdf } from "react-icons/tb";
 import { TfiDownload } from "react-icons/tfi";
 import PopUp from "./PopUp";
+import FileEndpoint from "../../endpoints/FileEndpoint";
 
 const ConsoleFileContainer: FC<ConsoleFileContainerProps> = ({ files }) => {
   if (files.length === 0) return <></>;
@@ -22,6 +23,10 @@ const ConsoleFileContainer: FC<ConsoleFileContainerProps> = ({ files }) => {
     }
   };
 
+  const downloadFile = (fileKey: string, fileName: string) => {
+    FileEndpoint.downloadFile(fileKey, fileName);
+  };
+
   return (
     <div className="flex flex-col">
       {files.map((file) => {
@@ -34,7 +39,10 @@ const ConsoleFileContainer: FC<ConsoleFileContainerProps> = ({ files }) => {
               <div className="text-2xl">{getFileIcon(file.mimeType)}</div>
               <Link to="#">{file.fileName}</Link>
             </div>
-            <button className="flex items-center justify-center relative hover:bg-gray-300 h-10 w-10 rounded transition group">
+            <button
+              onClick={() => downloadFile(file.fileKey, file.fileName)}
+              className="flex items-center justify-center relative hover:bg-gray-300 h-10 w-10 rounded transition group"
+            >
               <TfiDownload />
               <PopUp />
             </button>

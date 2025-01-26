@@ -45,7 +45,7 @@ const ConsoleActions: FC<ConsoleActionsProps> = ({ setIsOpen }) => {
 
   return (
     <>
-      <div className="flex space-x-2">
+      <div className="flex space-x-2 p-6">
         {actions.map(({ label, icon }) => {
           return (
             <ConsoleAction
