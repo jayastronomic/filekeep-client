@@ -1,17 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import FolderEndpoint from "../../endpoints/FolderEndpoint";
-import { useLocation } from "react-router";
 import { MdOutlineFileUpload } from "react-icons/md";
 import ConsoleFolderContainer from "./ConsoleFolderContainer";
 import ConsoleFileContainer from "./ConsoleFIleContainer";
+import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 
 const FolderPage = () => {
-  const { pathname } = useLocation();
-  const paths = pathname.split("/");
-  const currentFolderName = paths[paths.length - 1];
+  const currentFolder = useGetCurrentFolder();
+
   const { data } = useQuery({
-    queryKey: ["get-folder"],
-    queryFn: () => FolderEndpoint.getFolder(currentFolderName),
+    queryKey: [`get-${currentFolder}`],
+    queryFn: () => FolderEndpoint.getFolder(currentFolder),
   });
 
   if (data) {
@@ -39,7 +38,7 @@ const FolderPage = () => {
       <main className="flex flex-col h-full w-full px-6">
         <div>All Files</div>
         <h1 className="text-3xl font-semibold text-gray-800 mb-4">
-          {currentFolderName}
+          {currentFolder}
         </h1>
         {display}
       </main>

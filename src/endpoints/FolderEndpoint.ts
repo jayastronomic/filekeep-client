@@ -14,7 +14,7 @@ export default class FolderEndpoint {
   public static async createFolder(
     payload: NewFolder
   ): Promise<ApiResponse<Folder>> {
-    const response = await fetch(FolderEndpoint.API + "/create_folder", {
+    const response = await fetch(FolderEndpoint.API, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,6 +22,7 @@ export default class FolderEndpoint {
       },
       body: JSON.stringify(payload),
     });
+    console.log(payload);
     return await response.json();
   }
 
@@ -34,7 +35,6 @@ export default class FolderEndpoint {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    console.log(response);
     return await response.json();
   }
 }

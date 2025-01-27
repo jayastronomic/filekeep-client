@@ -18,7 +18,7 @@ declare global {
 
   interface NewFolder {
     folderName: string;
-    parentId: string;
+    parentName: string;
   }
 
   interface FKFile {
@@ -106,6 +106,12 @@ declare global {
 
   interface ConsoleFolderCardProps {
     folder: Folder;
+  }
+
+  interface MoreMenuProps {
+    file: FKFile;
+    setIsOpen: Dispatch<SetStateAction<string | null>>;
+    handleDelete: (fileKey: string) => void;
   }
 }
 

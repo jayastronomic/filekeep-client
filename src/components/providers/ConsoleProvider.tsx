@@ -6,7 +6,7 @@ import { ConsoleLoader } from "../../components/loaders/ConsoleLoader";
 
 const ConsoleProvider: FC<ConsoleProviderProps> = ({ children }) => {
   const { data, isLoading } = useQuery({
-    queryKey: ["get-root"],
+    queryKey: ["get-home"],
     queryFn: FolderEndpoint.getRoot,
   });
 

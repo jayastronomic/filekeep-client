@@ -1,15 +1,13 @@
 import { MdOutlineFileUpload } from "react-icons/md";
 import { MdCreateNewFolder } from "react-icons/md";
 import ConsoleAction from "./ConsoleAction";
-import { ChangeEvent, FC, useContext, useRef } from "react";
+import { ChangeEvent, FC, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import FileEndpoint from "../../endpoints/FileEndpoint";
-import { useLocation } from "react-router";
-import { ConsoleContext } from "../contexts/ConsoleContext";
+import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 
 const ConsoleActions: FC<ConsoleActionsProps> = ({ setIsOpen }) => {
-  const { rootFolder } = useContext(ConsoleContext);
-  const { pathname } = useLocation();
+  const currentFolder = useGetCurrentFolder();
   const inputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const actions: ConsoleAction[] = [
@@ -17,10 +15,10 @@ const ConsoleActions: FC<ConsoleActionsProps> = ({ setIsOpen }) => {
     { label: "Create Folder", icon: <MdCreateNewFolder /> },
   ];
 
-  const mutatation = useMutation({
+  const { mutate } = useMutation({
     mutationFn: FileEndpoint.upload,
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["get-root"] });
+      queryClient.invalidateQueries({ queryKey: [`get-${currentFolder}`] });
     },
     onError(e) {
       console.log(e);
@@ -32,10 +30,8 @@ const ConsoleActions: FC<ConsoleActionsProps> = ({ setIsOpen }) => {
       const selectedFile = e.target.files[0];
       const formData = new FormData();
       formData.append("file", selectedFile);
-      if (pathname === "/home") {
-        formData.append("parent_id", rootFolder.id);
-      }
-      mutatation.mutate(formData);
+      formData.append("folder_name", currentFolder);
+      mutate(formData);
     }
   };
 

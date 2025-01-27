@@ -1,25 +1,22 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import FolderEndpoint from "../../endpoints/FolderEndpoint";
-import { FC, FormEvent, useContext, useState } from "react";
+import { FC, FormEvent, useState } from "react";
 import { FcFolder } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
-import { useLocation } from "react-router";
-import { ConsoleContext } from "../contexts/ConsoleContext";
+import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 
 const CreateFolderModal: FC<CreateFolderModalProps> = ({ setIsOpen }) => {
-  const { pathname } = useLocation();
-  const { rootFolder } = useContext(ConsoleContext);
+  const currentFolder = useGetCurrentFolder();
   const [folder, setFolder] = useState<NewFolder>({
     folderName: "",
-    parentId: "",
+    parentName: "",
   });
   const queryClient = useQueryClient();
-  const parentId = pathname === "/home" ? rootFolder.id : "";
 
   const { mutate } = useMutation({
     mutationFn: FolderEndpoint.createFolder,
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["get-root"] });
+      queryClient.invalidateQueries({ queryKey: [`get-${currentFolder}`] });
     },
   });
 
@@ -54,7 +51,10 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({ setIsOpen }) => {
             <input
               value={folder.folderName}
               onChange={(e) =>
-                setFolder({ folderName: e.target.value, parentId })
+                setFolder({
+                  folderName: e.target.value,
+                  parentName: currentFolder,
+                })
               }
               className="w-ful focus:outline-none focus:ring-4 rounded px-2 py-1 focus:border-black border border-gray-300"
             />
