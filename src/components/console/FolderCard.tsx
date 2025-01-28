@@ -2,7 +2,7 @@ import { FC } from "react";
 import { FcFolder } from "react-icons/fc";
 import { Link, useLocation } from "react-router";
 
-const ConsoleFolderCard: FC<ConsoleFolderCardProps> = ({ folder }) => {
+const FolderCard: FC<FolderCardProps> = ({ folder }) => {
   const { pathname } = useLocation();
   return (
     <div
@@ -15,4 +15,4 @@ const ConsoleFolderCard: FC<ConsoleFolderCardProps> = ({ folder }) => {
   );
 };
 
-export default ConsoleFolderCard;
+export default FolderCard;

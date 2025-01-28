@@ -104,8 +104,12 @@ declare global {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
   }
 
-  interface ConsoleFolderCardProps {
+  interface FolderCardProps {
     folder: Folder;
+  }
+
+  interface FileCardProps {
+    file: FKFile;
   }
 
   interface MoreMenuProps {

@@ -4,8 +4,9 @@ import { MdOutlineFileUpload } from "react-icons/md";
 import ConsoleFolderContainer from "./ConsoleFolderContainer";
 import ConsoleFileContainer from "./ConsoleFIleContainer";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
+import { Link } from "react-router";
 
-const FolderPage = () => {
+const Folders = () => {
   const currentFolder = useGetCurrentFolder();
 
   const { data } = useQuery({
@@ -15,7 +16,7 @@ const FolderPage = () => {
 
   if (data) {
     const { files, subFolders } = data.data;
-    const display =
+    const content =
       files.length === 0 && subFolders.length === 0 ? (
         <div className="border border-dashed flex flex-col items-center p-24 rounded border-gray-400 hover:bg-gray-100">
           <div>
@@ -35,15 +36,24 @@ const FolderPage = () => {
       );
 
     return (
-      <main className="flex flex-col h-full w-full px-6">
-        <div>All Files</div>
-        <h1 className="text-3xl font-semibold text-gray-800 mb-4">
-          {currentFolder}
-        </h1>
-        {display}
+      <main className="flex flex-col h-full w-full ">
+        {currentFolder === "home" ? (
+          <h1 className="text-gray-800 text-2xl font-bold">All Files</h1>
+        ) : (
+          <Link
+            className="text-gray-600 hover:underline hover:text-black"
+            to="/home"
+          >
+            All files
+          </Link>
+        )}
+        <h2 className="text-3xl font-semibold text-gray-800 mb-4">
+          {currentFolder === "home" ? "" : currentFolder}
+        </h2>
+        {content}
       </main>
     );
   }
 };
 
-export default FolderPage;
+export default Folders;

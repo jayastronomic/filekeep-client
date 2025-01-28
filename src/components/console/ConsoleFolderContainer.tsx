@@ -1,11 +1,9 @@
 import { FC } from "react";
-import ConsoleFolderCard from "./ConsoleFolderCard";
+import ConsoleFolderCard from "./FolderCard";
 
 const ConsoleFolderContainer: FC<ConsoleFolderContainerProps> = ({
   folders,
 }) => {
-  if (folders.length === 0) return <></>;
-
   return (
     <div className="flex flex-col">
       {folders
