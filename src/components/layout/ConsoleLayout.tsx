@@ -1,5 +1,4 @@
 import { useState } from "react";
-import ConsoleProvider from "../../components/providers/ConsoleProvider";
 import ConsoleActions from "../console/ConsoleActions";
 import ConsoleNav from "../nav/ConsoleNav";
 import { Outlet } from "react-router";
@@ -8,12 +7,10 @@ const ConsoleLayout = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <div className="flex flex-col h-full w-full flex-1">
-      <ConsoleProvider>
-        <ConsoleNav />
-        <ConsoleActions setIsOpen={setIsOpen} />
-        <Outlet />
-        {isOpen && <CreateFolderModal setIsOpen={setIsOpen} />}
-      </ConsoleProvider>
+      <ConsoleNav />
+      <ConsoleActions setIsOpen={setIsOpen} />
+      <Outlet />
+      {isOpen && <CreateFolderModal setIsOpen={setIsOpen} />}
     </div>
   );
 };

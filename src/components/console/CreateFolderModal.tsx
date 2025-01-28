@@ -67,6 +67,7 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({ setIsOpen }) => {
               Cancel
             </button>
             <button
+              type="submit"
               disabled={folder.folderName.length === 0}
               className={`text-white font-semibold  p-2 rounded-md ${
                 folder.folderName.length === 0

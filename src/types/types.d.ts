@@ -104,16 +104,14 @@ declare global {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
   }
 
-  interface FolderCardProps {
-    folder: Folder;
-  }
-
-  interface FileCardProps {
-    file: FKFile;
+  interface AssetCardProps {
+    type: "folder" | "file";
+    asset: Folder | FKFile;
   }
 
   interface MoreMenuProps {
-    file: FKFile;
+    type: "folder" | "file";
+    asset: FKFile | Folder;
     setIsOpen: Dispatch<SetStateAction<string | null>>;
     handleDelete: (fileKey: string) => void;
   }

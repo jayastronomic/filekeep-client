@@ -1,16 +1,5 @@
 export default class FolderEndpoint {
   private static API = "http://localhost:8080/api/v1/folders";
-
-  public static async getRoot(): Promise<ApiResponse<Folder>> {
-    const response = await fetch(FolderEndpoint.API + "/root", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    return await response.json();
-  }
-
   public static async createFolder(
     payload: NewFolder
   ): Promise<ApiResponse<Folder>> {
@@ -22,7 +11,6 @@ export default class FolderEndpoint {
       },
       body: JSON.stringify(payload),
     });
-    console.log(payload);
     return await response.json();
   }
 
@@ -31,6 +19,16 @@ export default class FolderEndpoint {
   ): Promise<ApiResponse<Folder>> {
     const response = await fetch(FolderEndpoint.API + "/" + folderName, {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return await response.json();
+  }
+
+  public static async deleteFolder(id: string) {
+    const response = await fetch(FolderEndpoint.API + "/" + id, {
+      method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

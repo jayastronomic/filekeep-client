@@ -1,5 +1,5 @@
 import { FC } from "react";
-import ConsoleFolderCard from "./FolderCard";
+import AssetCard from "./AssetCard";
 
 const ConsoleFolderContainer: FC<ConsoleFolderContainerProps> = ({
   folders,
@@ -9,7 +9,7 @@ const ConsoleFolderContainer: FC<ConsoleFolderContainerProps> = ({
       {folders
         .sort((a, b) => a.folderName.localeCompare(b.folderName))
         .map((folder) => {
-          return <ConsoleFolderCard folder={folder} />;
+          return <AssetCard asset={folder} type={"folder"} />;
         })}
     </div>
   );

@@ -1,11 +1,11 @@
 import { FC } from "react";
-import FileCard from "./FileCard";
+import AssetCard from "./AssetCard";
 
 const ConsoleFileContainer: FC<ConsoleFileContainerProps> = ({ files }) => {
   return (
     <div className="flex flex-col">
       {files.map((file) => {
-        return <FileCard file={file} />;
+        return <AssetCard asset={file} type={"file"} />;
       })}
     </div>
   );
