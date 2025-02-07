@@ -1,5 +1,5 @@
 export default class FolderEndpoint {
-  private static API = "http://localhost:8080/api/v1/folders";
+  private static API = import.meta.env.VITE_BACKEND_URL + "/api/v1/folders";
   public static async createFolder(
     payload: NewFolder
   ): Promise<ApiResponse<Folder>> {

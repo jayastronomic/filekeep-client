@@ -1,8 +1,8 @@
 export default class FileEndpoint {
-  private static API = "http://localhost:8080";
+  private static API = import.meta.env.VITE_BACKEND_URL + "/api/v1/files";
 
   public static async upload(payload: FormData): Promise<ApiResponse<string>> {
-    const response = await fetch(FileEndpoint.API + "/api/v1/files/upload", {
+    const response = await fetch(FileEndpoint.API + "/upload", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -51,15 +51,12 @@ export default class FileEndpoint {
   }
 
   public static async deleteFile(fileKey: string) {
-    const response = await fetch(
-      FileEndpoint.API + "/api/v1/files/" + fileKey,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await fetch(FileEndpoint.API + "/" + fileKey, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return await response.json();
   }
 }
