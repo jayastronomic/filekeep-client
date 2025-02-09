@@ -9,11 +9,16 @@ const ConsoleLayout = () => {
   const [isCreateFolderModalOpen, setIsCreatFolderModalOpen] =
     useState<boolean>(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState<boolean>(false);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
   return (
-    <div className="flex flex-col h-full w-full flex-1 bg-[#0d1117] md:flex-row">
-      <ConsoleNav />
+    <div className="relative flex flex-col h-full w-full flex-1 bg-[#0d1117] md:flex-row overflow-hidden">
+      <ConsoleNav setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
       <div className="flex flex-col w-full">
-        <ConsoleControls setIsProfileMenuOpen={setIsProfileMenuOpen} />
+        <ConsoleControls
+          setIsProfileMenuOpen={setIsProfileMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+        />
         <ConsoleActions setIsOpen={setIsCreatFolderModalOpen} />
         <Outlet />
       </div>

@@ -131,6 +131,12 @@ declare global {
 
   interface ConsoleControlsProps {
     setIsProfileMenuOpen: Dispatch<SetStateAction<boolean>>;
+    setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
+  }
+
+  interface ConsoleNavProps {
+    isMenuOpen: boolean;
+    setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
   }
 }
 
