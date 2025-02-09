@@ -5,7 +5,7 @@ const ConsoleFileContainer: FC<ConsoleFileContainerProps> = ({ files }) => {
   return (
     <div className="flex flex-col">
       {files.map((file) => {
-        return <AssetCard asset={file} type={"file"} />;
+        return <AssetCard key={file.id} asset={file} type={"file"} />;
       })}
     </div>
   );

@@ -12,13 +12,15 @@ const TextField: FC<TextFieldProps> = ({
   const { pathname } = useLocation();
   return (
     <label className="form-control w-full">
-      <div className="label">
-        <span className="label-text text-gray-700">{label}</span>
+      <div className="label mb-2">
+        <span className="label-text text-white font-light text-sm font-[400]">
+          {label}
+        </span>
       </div>
       <input
         type={type || "text"}
         placeholder={placeholder}
-        className="input w-full border focus:outline-none focus:ring"
+        className="w-full border focus:outline-none bg-[#0d1117] text-white border-gray-600 rounded px-2 py-1 text-sm"
         autoComplete={
           type === "password" && pathname === "/login" ? "current-password" : ""
         }

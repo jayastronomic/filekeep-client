@@ -4,6 +4,7 @@ import { useLocation } from "react-router";
 import { ChangeEvent, FC, FormEvent, useState } from "react";
 import AuthEndpoint from "../../endpoints/AuthEndpoint";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import FileKeepIcon from "../../components/home/FileKeepIcon";
 
 const SignUp: FC<SignUpProps> = ({ handleChange, user }) => {
   const { email, password, passwordConfirmation } = user;
@@ -31,11 +32,11 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user }) => {
       />
       <button
         type="submit"
-        className="btn text-white w-full bg-blue-500 text-base hover:bg-blue-600"
+        className="text-center bg-gray-900 text-white font-light rounded-md p-2 border-[0.5px] w-full text-sm border-gray-400"
       >
         Sign up
       </button>
-      <div className="w-full flex justify-center space-x-1">
+      <div className="w-full flex items-center space-x-1 text-white text-sm">
         <span>Already have an account?</span>
         <Link to="/login" className="text-blue-400 hover:underline">
           Log in
@@ -64,11 +65,11 @@ const LogIn: FC<LogInPrps> = ({ handleChange, user }) => {
       />
       <button
         type="submit"
-        className="btn text-white w-full bg-blue-500 text-base hover:bg-blue-600"
+        className="text-center text-white font-light rounded-md p-2 border-[0.5px] w-full text-sm border-gray-400 bg-gray-900"
       >
         Log in
       </button>
-      <div className="w-full flex justify-center space-x-1">
+      <div className="w-full flex items-center space-x-1 text-white text-sm">
         <span>Don't have an account? </span>
         <Link to="/register" className="text-blue-400 hover:underline">
           Sign up
@@ -118,9 +119,15 @@ const Registrations = () => {
   };
 
   return (
-    <main className="flex flex-col items-center w-full h-full p-4">
-      <h1 className="text-2xl louis">{title}</h1>
-      <form onSubmit={handleSubmit} className="p-2 mt-8 w-full">
+    <main className="bg-[#0d1117] flex flex-col items-center w-full h-full p-4">
+      <Link className="pointer" to={"/"}>
+        <FileKeepIcon width="50" height="50" viewBox="85 90 200 200" />
+      </Link>
+      <h1 className="text-2xl text-white">{title}</h1>
+      <form
+        onSubmit={handleSubmit}
+        className="p-2 mt-8 w-[18rem] border border-gray-600 rounded-lg bg-[#151B23] p-4"
+      >
         {pathname === "/register" ? (
           <SignUp handleChange={handleChange} user={user} />
         ) : (

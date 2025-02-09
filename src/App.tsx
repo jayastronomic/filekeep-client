@@ -9,6 +9,7 @@ import UnauthenticatedTemplate from "./components/template/UnauthenticatedTempla
 import NotFound from "./components/errors/NotFound";
 
 function App() {
+  console.log(import.meta.env.VITE_BACKEND_URL);
   return (
     <BrowserRouter>
       <AuthenticatedTemplate>

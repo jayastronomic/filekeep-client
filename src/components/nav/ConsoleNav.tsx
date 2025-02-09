@@ -12,22 +12,22 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ setIsOpen }) => {
     queryClient.invalidateQueries({ queryKey: ["is-logged-in"] });
   };
   return (
-    <div className="fixed inset-0 z-[1] h-full w-full overflow-hidden">
-      <div className="flex flex-col absolute z-[3] right-4 top-[4.2rem] border bg-white shadow p-2  rounded-lg w-[10rem]">
-        <div className="flex flex-col text-gray border-b pb-5 items-center">
+    <div className="fixed inset-0 h-full w-full overflow-hidden">
+      <div className="flex flex-col absolute z-[1] right-4 top-[4.2rem] border border-gray-700 bg-[#151B23] shadow p-2  rounded-lg w-[10rem]">
+        <div className="flex flex-col text-gray border-b border-gray-700 pb-5 items-center">
           <span className="font-semibold">User name</span>
           <span className="text-xs">{authUser?.email}</span>
         </div>
         <button
           onClick={handleLogOut}
-          className="text-sm hover:bg-gray-200 w-full p-1"
+          className="text-sm hover:bg-gray-800 w-full p-1"
         >
           Log out
         </button>
       </div>
       <button
         onClick={() => setIsOpen(false)}
-        className="absolut w-full h-full"
+        className="w-full h-full"
       ></button>
     </div>
   );
@@ -36,11 +36,11 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ setIsOpen }) => {
 const ConsoleNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <nav className="w-full flex items-center justify-between p-4 border-b shadow">
+    <nav className="w-full flex items-center justify-between p-4 border-b border-gray-800 shadow bg-[#151B23] text-white">
       <div className="flex text-lg">
         <FaBars />
       </div>
-      <div className="flex justify-center text-2xl hover:bg-gray-200 h-10 w-10 rounded-full transition hover:text-gray-700 hover:shadow">
+      <div className="flex justify-center text-2xl hover:bg-gray-700 h-10 w-10 rounded-full transition hover:shadow">
         <button onClick={() => setIsOpen(true)}>
           <FaUserCircle />
         </button>

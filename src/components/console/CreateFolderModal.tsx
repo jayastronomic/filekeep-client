@@ -29,25 +29,30 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({ setIsOpen }) => {
   return (
     <div className="flex flex-col fixed inset-0 h-full w-full bg-black bg-opacity-50">
       <div className="flex flex-col w-full h-full bg-white">
-        <header className="flex items-center justify-between w-full border-b border-gray-300 p-2">
+        <header className="flex items-center justify-between w-full border-b border-gray-700 p-2 bg-[#151B23]">
           <div className="flex space-x-4 items-center">
             <FcFolder className="text-5xl" />
-            <h1 className="text-gray-800 font-semibold text-xl">
+            <h1 className="text-gray-100 font-semibold text-xl">
               Create folder
             </h1>
           </div>
           <div>
             <button
               onClick={() => setIsOpen(false)}
-              className="flex items-center justify-center hover:bg-gray-300 transition w-8 h-8 rounded-lg"
+              className="flex items-center justify-center hover:bg-gray-700 transition w-8 h-8 rounded-lg"
             >
-              <IoClose className="text-2xl" />
+              <IoClose className="text-gray-100 text-2xl" />
             </button>
           </div>
         </header>
-        <form onSubmit={handleSubmit} className="flex flex-col">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col bg-[#0d1117] flex-1"
+        >
           <div className="flex flex-col p-4">
-            <label className="font-semibold text-sm mb-2">Name</label>
+            <label className="font-semibold text-sm mb-2 text-gray-100">
+              Name
+            </label>
             <input
               value={folder.folderName}
               onChange={(e) =>
@@ -56,13 +61,14 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({ setIsOpen }) => {
                   parentName: currentFolder,
                 })
               }
-              className="w-ful focus:outline-none focus:ring-4 rounded px-2 py-1 focus:border-black border border-gray-300"
+              autoFocus
+              className="w-full bg-gray-900 focus:outline-none focus:ring-4 rounded px-2 py-1 focus:border-black border border-gray-700 text-gray-100"
             />
           </div>
           <div className="flex space-x-4 justify-end px-4">
             <button
               onClick={() => setIsOpen(false)}
-              className="text-gray-700 font-semibold bg-gray-200 p-2 rounded-md"
+              className="text-gray-900 font-semibold bg-gray-400 p-2 rounded-md"
             >
               Cancel
             </button>
@@ -71,8 +77,8 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({ setIsOpen }) => {
               disabled={folder.folderName.length === 0}
               className={`text-white font-semibold  p-2 rounded-md ${
                 folder.folderName.length === 0
-                  ? "bg-gray-700 opacity-30"
-                  : "bg-black opacity-100"
+                  ? "bg-gray-700 opacity-30 cursor-not-allowed border border-transparent"
+                  : "bg-gray-900 opacity-100 border border-gray-800"
               }`}
             >
               Create

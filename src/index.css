@@ -16,6 +16,15 @@ body,
   src: url("/fonts/louis/Louis George Cafe.ttf");
 }
 
+@font-face {
+  font-family: "Magz";
+  src: url("/fonts/Magz.otf");
+}
+
 .louis {
   font-family: "Louis";
+}
+
+.magz {
+  font-family: Magz;
 }

@@ -14,15 +14,12 @@ export default class FileEndpoint {
 
   public static async downloadFile(fileKey: string, fileName: string) {
     try {
-      const response = await fetch(
-        FileEndpoint.API + "/api/v1/files/" + fileKey,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await fetch(FileEndpoint.API + "/" + fileKey, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Failed to download the file.");

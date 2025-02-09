@@ -6,7 +6,7 @@ import CreateFolderModal from "../../components/console/CreateFolderModal";
 const ConsoleLayout = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
-    <div className="flex flex-col h-full w-full flex-1">
+    <div className="flex flex-col h-full w-full flex-1 bg-[#0d1117]">
       <ConsoleNav />
       <ConsoleActions setIsOpen={setIsOpen} />
       <Outlet />

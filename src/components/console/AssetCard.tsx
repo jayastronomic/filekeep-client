@@ -57,7 +57,7 @@ const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
     return (
       <div
         key={file.id}
-        className="relative flex border-b py-4 hover:bg-gray-100 text-gray-800 items-center space-x-2 justify-between px-2"
+        className="relative flex border-b border-gray-700 py-4 hover:bg-gray-800 text-gray-200 items-center space-x-2 justify-between px-2"
       >
         <div className="flex space-x-2">
           <div className="text-2xl">{getFileIcon(file.mimeType)}</div>
@@ -65,7 +65,7 @@ const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
         </div>
         <button
           onClick={() => handleMenuToggle(file.id)}
-          className="flex items-center justify-center relative hover:bg-gray-300 h-10 w-10 rounded transition"
+          className="flex items-center justify-center relative hover:bg-gray-700 h-10 w-10 rounded transition"
         >
           <MdOutlineMoreHoriz />
         </button>
@@ -84,7 +84,7 @@ const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
     return (
       <div
         key={folder.id}
-        className="relative flex border-b py-4 hover:bg-gray-100 text-gray-800 items-center space-x-2 justify-between px-2"
+        className="relative flex border-b border-gray-700 py-4 hover:bg-gray-800 text-gray-200 items-center space-x-2 justify-between px-2"
       >
         <div className="flex space-x-2">
           <div className="text-2xl">
@@ -96,7 +96,7 @@ const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
         </div>
         <button
           onClick={() => handleMenuToggle(folder.id)}
-          className="flex items-center justify-center relative hover:bg-gray-300 h-10 w-10 rounded transition"
+          className="flex items-center justify-center relative hover:bg-gray-700 h-10 w-10 rounded transition"
         >
           <MdOutlineMoreHoriz />
         </button>

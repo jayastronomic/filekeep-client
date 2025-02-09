@@ -115,6 +115,19 @@ declare global {
     setIsOpen: Dispatch<SetStateAction<string | null>>;
     handleDelete: (fileKey: string) => void;
   }
+
+  interface FileKeepIconProps {
+    height: string;
+    width: string;
+    viewBox: string;
+    className?: string;
+  }
+  interface FileKeepTextSvgProps {
+    height: string;
+    width: string;
+    viewBox: string;
+    className?: string;
+  }
 }
 
 export {};
