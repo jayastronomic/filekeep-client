@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, UIEvent } from "react";
 import ConsoleActions from "../console/ConsoleActions";
 import ConsoleNav from "../nav/ConsoleNav";
 import { Outlet } from "react-router";
@@ -10,14 +10,26 @@ const ConsoleLayout = () => {
     useState<boolean>(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [consoleScrollPosition, setConsoleScrollPosition] = useState<number>(0);
+
+  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
+    const { scrollTop } = e.currentTarget;
+    setConsoleScrollPosition(scrollTop);
+  };
 
   return (
-    <div className="relative flex flex-col h-full w-full flex-1 bg-[#0d1117] md:flex-row overflow-hidden">
+    <div
+      onScroll={handleScroll}
+      className={`relative flex flex-col h-full w-full flex-1 bg-[#0d1117] md:flex-row ${
+        isMenuOpen ? "overflow-hidden" : "overflow-auto"
+      }`}
+    >
       <ConsoleNav setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
       <div className="flex flex-col w-full">
         <ConsoleControls
           setIsProfileMenuOpen={setIsProfileMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
+          consoleScrollPosition={consoleScrollPosition}
         />
         <ConsoleActions setIsOpen={setIsCreatFolderModalOpen} />
         <Outlet />

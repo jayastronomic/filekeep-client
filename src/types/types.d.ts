@@ -132,6 +132,7 @@ declare global {
   interface ConsoleControlsProps {
     setIsProfileMenuOpen: Dispatch<SetStateAction<boolean>>;
     setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
+    consoleScrollPosition: number;
   }
 
   interface ConsoleNavProps {

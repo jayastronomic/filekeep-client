@@ -29,7 +29,7 @@ const Folders = () => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col">
+        <div className="flex flex-col h-full">
           <ConsoleFolderContainer folders={subFolders || []} />
           <ConsoleFileContainer files={files || []} />
         </div>

@@ -5,10 +5,11 @@ import { Link } from "react-router";
 const ConsoleNav: FC<ConsoleNavProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   return (
     <>
+      <nav className="ghost-nav w-[5.5rem] "></nav>
       <nav
-        className={`absolute transition-all duration-600 z-10 items-center p-4 border-b border-gray-800 shadow bg-[#151B23] text-white h-full md:flex md:flex-col md:relative md:left-0 md:top-0 ${
+        className={`fixed transition-all duration-600 z-[11] items-center w-20  border-b border-gray-800 shadow bg-[#151B23] text-white h-full md:flex md:flex-col md:left-0 md:top-0 md:z-1 ${
           isMenuOpen
-            ? "left-0 top-20 ease-in-out"
+            ? "left-0 top-[4.5rem] ease-in-out"
             : "ease-in -left-[100%] top-20"
         }`}
       >
@@ -21,7 +22,7 @@ const ConsoleNav: FC<ConsoleNavProps> = ({ isMenuOpen, setIsMenuOpen }) => {
       {isMenuOpen && (
         <button
           onClick={() => setIsMenuOpen(false)}
-          className={`absolute top-20 h-full w-full bg-black bg-opacity-50 md:hidden`}
+          className={`fixed top-20 h-full w-full bg-black bg-opacity-50 z-10 md:hidden`}
         ></button>
       )}
     </>
