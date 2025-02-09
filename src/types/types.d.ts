@@ -80,7 +80,7 @@ declare global {
   }
 
   interface ConsoleActionsProps {
-    setIsOpen: Dispatch<SetStateAction<boolean>>;
+    setIsCreateFolderModalOpen: Dispatch<SetStateAction<boolean>>;
   }
 
   type ConsoleAction = {
@@ -97,11 +97,11 @@ declare global {
   }
 
   interface CreateFolderModalProps {
-    setIsOpen: Dispatch<SetStateAction<boolean>>;
+    setIsCreateFolderModalOpen: Dispatch<SetStateAction<boolean>>;
   }
 
   interface ProfileMenuProps {
-    setIsOpen: Dispatch<SetStateAction<boolean>>;
+    setIsProfileMenuOpen: Dispatch<SetStateAction<boolean>>;
   }
 
   interface AssetCardProps {

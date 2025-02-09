@@ -38,7 +38,7 @@ const Folders = () => {
     return (
       <main className="flex flex-col h-full w-full">
         {currentFolder === "home" ? (
-          <h1 className="text-2xl font-bold text-gray-400">All Files</h1>
+          <h1 className="text-2xl font-bold text-gray-400 px-2">All Files</h1>
         ) : (
           <Link
             className="text-gray-600 hover:underline hover:text-gray-500 self-start"

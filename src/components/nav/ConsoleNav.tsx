@@ -22,7 +22,7 @@ const ConsoleNav: FC<ConsoleNavProps> = ({ isMenuOpen, setIsMenuOpen }) => {
       {isMenuOpen && (
         <button
           onClick={() => setIsMenuOpen(false)}
-          className={`fixed top-20 h-full w-full bg-black bg-opacity-50 z-10 md:hidden`}
+          className={`fixed top-[4.5rem] h-full w-full bg-black bg-opacity-50 z-10 md:hidden`}
         ></button>
       )}
     </>

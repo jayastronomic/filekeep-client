@@ -1,4 +1,4 @@
-import { useState, UIEvent } from "react";
+import { useState, UIEvent, useEffect } from "react";
 import ConsoleActions from "../console/ConsoleActions";
 import ConsoleNav from "../nav/ConsoleNav";
 import { Outlet } from "react-router";
@@ -8,9 +8,22 @@ import ProfileMenu from "../../components/console/ProfileMenu";
 const ConsoleLayout = () => {
   const [isCreateFolderModalOpen, setIsCreatFolderModalOpen] =
     useState<boolean>(false);
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState<boolean>(false);
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [consoleScrollPosition, setConsoleScrollPosition] = useState<number>(0);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [consoleScrollPosition, setConsoleScrollPosition] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const resize = () => {
+      setWindowWidth(window.innerWidth);
+      if (windowWidth >= 768) setIsMenuOpen(false);
+    };
+
+    window.addEventListener("resize", resize);
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  }, [windowWidth]);
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const { scrollTop } = e.currentTarget;
@@ -20,7 +33,7 @@ const ConsoleLayout = () => {
   return (
     <div
       onScroll={handleScroll}
-      className={`relative flex flex-col h-full w-full flex-1 bg-[#0d1117] md:flex-row ${
+      className={`relative flex flex-col h-full w-full flex-1 bg-[#0d1117] md:flex-row  ${
         isMenuOpen ? "overflow-hidden" : "overflow-auto"
       }`}
     >
@@ -31,13 +44,19 @@ const ConsoleLayout = () => {
           setIsMenuOpen={setIsMenuOpen}
           consoleScrollPosition={consoleScrollPosition}
         />
-        <ConsoleActions setIsOpen={setIsCreatFolderModalOpen} />
+        <ConsoleActions
+          setIsCreateFolderModalOpen={setIsCreatFolderModalOpen}
+        />
         <Outlet />
       </div>
       {isCreateFolderModalOpen && (
-        <CreateFolderModal setIsOpen={setIsCreatFolderModalOpen} />
+        <CreateFolderModal
+          setIsCreateFolderModalOpen={setIsCreatFolderModalOpen}
+        />
       )}
-      {isProfileMenuOpen && <ProfileMenu setIsOpen={setIsProfileMenuOpen} />}
+      {isProfileMenuOpen && (
+        <ProfileMenu setIsProfileMenuOpen={setIsProfileMenuOpen} />
+      )}
     </div>
   );
 };
