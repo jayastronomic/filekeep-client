@@ -128,6 +128,10 @@ declare global {
     viewBox: string;
     className?: string;
   }
+
+  interface ConsoleControlsProps {
+    setIsProfileMenuOpen: Dispatch<SetStateAction<boolean>>;
+  }
 }
 
 export {};
