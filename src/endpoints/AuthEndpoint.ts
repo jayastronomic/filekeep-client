@@ -9,7 +9,11 @@ export default class AuthEndpoint {
       },
       body: JSON.stringify(payload),
     });
-    return await response.json();
+
+    const data: ApiResponse<string> = await response.json();
+
+    if (response.status === 401) throw new Error(data.message);
+    return data;
   }
 
   public static async register(payload: User): Promise<ApiResponse<string>> {
@@ -20,7 +24,9 @@ export default class AuthEndpoint {
       },
       body: JSON.stringify(payload),
     });
-    return await response.json();
+    const data: ApiResponse<string> = await response.json();
+    if (response.status === 400) throw new Error(data.message);
+    return data;
   }
 
   public static async isLoggedIn(): Promise<ApiResponse<User>> {

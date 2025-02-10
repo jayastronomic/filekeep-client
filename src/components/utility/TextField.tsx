@@ -8,6 +8,8 @@ const TextField: FC<TextFieldProps> = ({
   handleChange,
   name,
   value,
+  required,
+  autoFocus,
 }) => {
   const { pathname } = useLocation();
   return (
@@ -20,13 +22,15 @@ const TextField: FC<TextFieldProps> = ({
       <input
         type={type || "text"}
         placeholder={placeholder}
-        className="w-full border focus:outline-none bg-[#0d1117] text-white border-gray-600 rounded px-2 py-1 text-sm"
+        className="w-full border focus:outline-none bg-[#0d1117] text-white border-gray-600 rounded px-2 py-1 text-sm focus:ring"
         autoComplete={
           type === "password" && pathname === "/login" ? "current-password" : ""
         }
         onChange={handleChange}
         name={name}
         value={value}
+        required={required}
+        autoFocus={autoFocus}
       />
     </label>
   );

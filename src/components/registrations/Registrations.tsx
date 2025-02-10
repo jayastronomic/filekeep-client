@@ -5,16 +5,19 @@ import { ChangeEvent, FC, FormEvent, useState } from "react";
 import AuthEndpoint from "../../endpoints/AuthEndpoint";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import FileKeepIcon from "../../components/home/FileKeepIcon";
+import ErrorBanner from "./ErrorBanner";
 
-const SignUp: FC<SignUpProps> = ({ handleChange, user }) => {
+const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
   const { email, password, passwordConfirmation } = user;
   return (
     <div className="w-full space-y-4">
       <TextField
+        autoFocus
         label="email"
         name="email"
         handleChange={handleChange}
         value={email || ""}
+        required
       />
       <TextField
         type="password"
@@ -22,6 +25,7 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user }) => {
         name="password"
         handleChange={handleChange}
         value={password || ""}
+        required
       />
       <TextField
         type="password"
@@ -29,12 +33,15 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user }) => {
         name="passwordConfirmation"
         handleChange={handleChange}
         value={passwordConfirmation || ""}
+        required
       />
       <button
         type="submit"
-        className="text-center bg-gray-900 text-white font-light rounded-md p-2 border-[0.5px] w-full text-sm border-gray-400"
+        className={`text-center  text-white font-light rounded-md p-2 border-[0.5px] w-full text-sm ${
+          isPending ? " bg-gray-400" : " bg-gray-900"
+        }`}
       >
-        Sign up
+        {isPending ? "Signing up..." : "Sign up"}
       </button>
       <div className="w-full flex items-center space-x-1 text-white text-sm">
         <span>Already have an account?</span>
@@ -46,15 +53,18 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user }) => {
   );
 };
 
-const LogIn: FC<LogInPrps> = ({ handleChange, user }) => {
+const LogIn: FC<LogInPrps> = ({ handleChange, user, isPending }) => {
+  console.log(isPending);
   const { email, password } = user;
   return (
     <div className="w-full space-y-4">
       <TextField
+        autoFocus
         label="email"
         name="email"
         handleChange={handleChange}
         value={email || ""}
+        required
       />
       <TextField
         type="password"
@@ -62,12 +72,15 @@ const LogIn: FC<LogInPrps> = ({ handleChange, user }) => {
         name="password"
         handleChange={handleChange}
         value={password || ""}
+        required
       />
       <button
         type="submit"
-        className="text-center text-white font-light rounded-md p-2 border-[0.5px] w-full text-sm border-gray-400 bg-gray-900"
+        className={`text-center  text-white font-light rounded-md p-2 border-[0.5px] w-full text-sm ${
+          isPending ? " bg-gray-400" : " bg-gray-900"
+        }`}
       >
-        Log in
+        {isPending ? "Logging in..." : "Log in"}
       </button>
       <div className="w-full flex items-center space-x-1 text-white text-sm">
         <span>Don't have an account? </span>
@@ -91,16 +104,13 @@ const Registrations = () => {
   const endpoint =
     pathname === "/register" ? AuthEndpoint.register : AuthEndpoint.login;
 
-  const mutation = useMutation({
+  const { mutate, error, isPending } = useMutation({
     mutationFn: endpoint,
     onSuccess: ({ data, status }) => {
       if (status === "SUCCESS") {
         localStorage.setItem("token", data);
         queryClient.invalidateQueries({ queryKey: ["is-logged-in"] });
       }
-    },
-    onError(e) {
-      console.log(e);
     },
   });
 
@@ -115,7 +125,7 @@ const Registrations = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (pathname === "/login") delete user.passwordConfirmation;
-    mutation.mutate(user);
+    mutate(user);
   };
 
   return (
@@ -124,14 +134,26 @@ const Registrations = () => {
         <FileKeepIcon width="50" height="50" viewBox="85 90 200 200" />
       </Link>
       <h1 className="text-2xl text-white">{title}</h1>
+
+      {pathname === "/login" && error && (
+        <ErrorBanner message={error.message} />
+      )}
       <form
         onSubmit={handleSubmit}
         className="p-2 mt-8 w-[18rem] border border-gray-600 rounded-lg bg-[#151B23] p-4"
       >
         {pathname === "/register" ? (
-          <SignUp handleChange={handleChange} user={user} />
+          <SignUp
+            handleChange={handleChange}
+            user={user}
+            isPending={isPending}
+          />
         ) : (
-          <LogIn handleChange={handleChange} user={user} />
+          <LogIn
+            handleChange={handleChange}
+            user={user}
+            isPending={isPending}
+          />
         )}
       </form>
     </main>

@@ -49,17 +49,21 @@ declare global {
     name: string;
     value: string;
     placeholder?: string;
+    required?: boolean;
+    autoFocus?: boolean;
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   }
 
   interface SignUpProps {
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
     user: User;
+    isPending: boolean;
   }
 
   interface LogInPrps {
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
     user: User;
+    isPending: boolean;
   }
 
   interface ApiResponse<T> {
@@ -138,6 +142,10 @@ declare global {
   interface ConsoleNavProps {
     isMenuOpen: boolean;
     setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
+  }
+
+  interface ErrorBannerProps {
+    message: string;
   }
 }
 
