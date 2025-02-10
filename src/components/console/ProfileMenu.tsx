@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../../hooks/useAuth";
 import { FC } from "react";
 
-const ProfileMenu: FC<ProfileMenuProps> = ({ setIsOpen }) => {
+const ProfileMenu: FC<ProfileMenuProps> = ({ setIsProfileMenuOpen }) => {
   const queryClient = useQueryClient();
   const { authUser } = useAuth();
   const handleLogOut = () => {
@@ -24,7 +24,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ setIsOpen }) => {
         </button>
       </div>
       <button
-        onClick={() => setIsOpen(false)}
+        onClick={() => setIsProfileMenuOpen(false)}
         className="w-full h-full"
       ></button>
     </div>

@@ -5,7 +5,9 @@ import { FcFolder } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 
-const CreateFolderModal: FC<CreateFolderModalProps> = ({ setIsOpen }) => {
+const CreateFolderModal: FC<CreateFolderModalProps> = ({
+  setIsCreateFolderModalOpen,
+}) => {
   const currentFolder = useGetCurrentFolder();
   const [folder, setFolder] = useState<NewFolder>({
     folderName: "",
@@ -23,7 +25,7 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({ setIsOpen }) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutate(folder);
-    setIsOpen(false);
+    setIsCreateFolderModalOpen(false);
   };
 
   return (
@@ -38,7 +40,7 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({ setIsOpen }) => {
           </div>
           <div>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={() => setIsCreateFolderModalOpen(false)}
               className="flex items-center justify-center hover:bg-gray-700 transition w-8 h-8 rounded-lg"
             >
               <IoClose className="text-gray-100 text-2xl" />
@@ -67,7 +69,7 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({ setIsOpen }) => {
           </div>
           <div className="flex space-x-4 justify-end px-4">
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={() => setIsCreateFolderModalOpen(false)}
               className="text-gray-900 font-semibold bg-gray-400 p-2 rounded-md"
             >
               Cancel

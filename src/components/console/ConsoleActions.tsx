@@ -6,7 +6,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import FileEndpoint from "../../endpoints/FileEndpoint";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 
-const ConsoleActions: FC<ConsoleActionsProps> = ({ setIsOpen }) => {
+const ConsoleActions: FC<ConsoleActionsProps> = ({
+  setIsCreateFolderModalOpen,
+}) => {
   const currentFolder = useGetCurrentFolder();
   const inputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
@@ -46,7 +48,11 @@ const ConsoleActions: FC<ConsoleActionsProps> = ({ setIsOpen }) => {
           return (
             <ConsoleAction
               key={label}
-              action={label === "Upload" ? clickHandler : () => setIsOpen(true)}
+              action={
+                label === "Upload"
+                  ? clickHandler
+                  : () => setIsCreateFolderModalOpen(true)
+              }
               label={label}
               icon={icon}
             />

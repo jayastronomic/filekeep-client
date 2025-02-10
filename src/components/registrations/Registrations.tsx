@@ -8,7 +8,7 @@ import FileKeepIcon from "../../components/home/FileKeepIcon";
 import ErrorBanner from "./ErrorBanner";
 
 const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
-  const { email, password, passwordConfirmation } = user;
+  const { email, password, passwordConfirmation, firstName, lastName } = user;
   return (
     <div className="w-full space-y-4">
       <TextField
@@ -19,6 +19,24 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
         value={email || ""}
         required
       />
+      <div className="flex space-x-2">
+        <TextField
+          autoFocus
+          label="first name"
+          name="firstName"
+          handleChange={handleChange}
+          value={firstName || ""}
+          required
+        />
+        <TextField
+          autoFocus
+          label="last name"
+          name="lastName"
+          handleChange={handleChange}
+          value={lastName || ""}
+          required
+        />
+      </div>
       <TextField
         type="password"
         label="password"
@@ -54,7 +72,6 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
 };
 
 const LogIn: FC<LogInPrps> = ({ handleChange, user, isPending }) => {
-  console.log(isPending);
   const { email, password } = user;
   return (
     <div className="w-full space-y-4">
@@ -95,6 +112,8 @@ const LogIn: FC<LogInPrps> = ({ handleChange, user, isPending }) => {
 const Registrations = () => {
   const [user, setUser] = useState<User>({
     email: "",
+    firstName: "",
+    lastName: "",
     password: "",
     passwordConfirmation: "",
   });
@@ -124,7 +143,6 @@ const Registrations = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (pathname === "/login") delete user.passwordConfirmation;
     mutate(user);
   };
 
