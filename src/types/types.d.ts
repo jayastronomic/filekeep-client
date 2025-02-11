@@ -3,8 +3,8 @@ import { ChangeEvent, Dispatch, ReactNode, SetStateAction } from "react";
 declare global {
   interface User {
     id?: string;
-    email?: string;
-    firstName?: string;
+    email: string;
+    firstName: string;
     lastName: string;
     password?: string;
     passwordConfirmation?: string;
