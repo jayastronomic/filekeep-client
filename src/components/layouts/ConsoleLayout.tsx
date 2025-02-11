@@ -1,10 +1,10 @@
 import { useState, UIEvent, useEffect } from "react";
 import ConsoleActions from "../console/ConsoleActions";
-import ConsoleNav from "../nav/ConsoleNav";
+import ConsoleNav from "../navs/ConsoleNav";
 import { Outlet } from "react-router";
-import CreateFolderModal from "../../components/console/CreateFolderModal";
-import ConsoleControls from "../../components/console/ConsoleControls";
-import ProfileMenu from "../../components/console/ProfileMenu";
+import CreateFolderModal from "../console/CreateFolderModal";
+import ConsoleControls from "../console/ConsoleControls";
+import ProfileMenu from "../console/ProfileMenu";
 const ConsoleLayout = () => {
   const [isCreateFolderModalOpen, setIsCreatFolderModalOpen] =
     useState<boolean>(false);
@@ -38,7 +38,7 @@ const ConsoleLayout = () => {
       }`}
     >
       <ConsoleNav setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col flex-1">
         <ConsoleControls
           setIsProfileMenuOpen={setIsProfileMenuOpen}
           setIsMenuOpen={setIsMenuOpen}

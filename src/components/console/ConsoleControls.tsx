@@ -1,6 +1,6 @@
 import { useAuth } from "../../hooks/useAuth";
 import { FC } from "react";
-import { FaBars, FaUserCircle } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 
 const ConsoleControls: FC<ConsoleControlsProps> = ({
   setIsProfileMenuOpen,

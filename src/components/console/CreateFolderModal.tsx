@@ -29,9 +29,9 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({
   };
 
   return (
-    <div className="flex flex-col fixed inset-0 h-full w-full bg-black bg-opacity-50">
-      <div className="flex flex-col w-full h-full bg-white">
-        <header className="flex items-center justify-between w-full border-b border-gray-700 p-2 bg-[#151B23]">
+    <div className="z-[11] fixed inset-0 h-full w-full bg-black bg-opacity-50 md:flex md:items-center md:justify-center">
+      <div className="flex flex-col w-full h-full md:h-1/2 md:rounded-2xl md:overflow-auto md:max-w-[38rem]">
+        <header className="flex items-center justify-between w-full border-b border-gray-700 p-4 bg-[#151B23]">
           <div className="flex space-x-4 items-center">
             <FcFolder className="text-5xl" />
             <h1 className="text-gray-100 font-semibold text-xl">

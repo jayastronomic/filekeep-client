@@ -9,12 +9,15 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ setIsProfileMenuOpen }) => {
     localStorage.removeItem("token");
     queryClient.invalidateQueries({ queryKey: ["is-logged-in"] });
   };
+  const { firstName, lastName, email } = authUser!;
   return (
-    <div className="fixed inset-0 h-full w-full overflow-hidden bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-[12] h-full w-full overflow-hidden bg-black bg-opacity-50">
       <div className="flex flex-col absolute z-[1] right-5 top-[3.5rem] border border-gray-700 bg-[#151B23] shadow p-2  rounded-lg w-[10rem]">
         <div className="flex flex-col text-gray-100 border-b border-gray-700 pb-5 items-center">
-          <span className="font-semibold">User name</span>
-          <span className="text-xs">{authUser?.email}</span>
+          <span className="text-sm">
+            {firstName} {lastName}
+          </span>
+          <span className="text-xs">{email}</span>
         </div>
         <button
           onClick={handleLogOut}
