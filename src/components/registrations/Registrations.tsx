@@ -19,9 +19,8 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
         value={email || ""}
         required
       />
-      <div className="flex space-x-2">
+      <div className="space-x-2 inline-flex">
         <TextField
-          autoFocus
           label="first name"
           name="firstName"
           handleChange={handleChange}
@@ -29,7 +28,6 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
           required
         />
         <TextField
-          autoFocus
           label="last name"
           name="lastName"
           handleChange={handleChange}
@@ -55,7 +53,7 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
       />
       <button
         type="submit"
-        className={`text-center  text-white font-light rounded-md p-2 border-[0.5px] w-full text-sm ${
+        className={`text-center  text-white font-light rounded-md p-2 border-[0.5px] w-full text-sm mt-4 ${
           isPending ? " bg-gray-400" : " bg-gray-900"
         }`}
       >
@@ -93,7 +91,7 @@ const LogIn: FC<LogInPrps> = ({ handleChange, user, isPending }) => {
       />
       <button
         type="submit"
-        className={`text-center  text-white font-light rounded-md p-2 border-[0.5px] w-full text-sm ${
+        className={`text-center text-white font-light rounded-md p-2 border-[0.5px] w-full text-sm mt-4 ${
           isPending ? " bg-gray-400" : " bg-gray-900"
         }`}
       >

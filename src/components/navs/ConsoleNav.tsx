@@ -7,12 +7,12 @@ const ConsoleNav: FC<ConsoleNavProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const { pathname } = useLocation();
   return (
     <>
-      <div className="ghost-nav w-[16rem]"></div>
+      <div className="hidden ghost-nav w-[16rem] md:block"></div>
       <div
-        className={`fixed flex z-[11] transition-all h-full duration-600 text-white md:left-0 md:top-0 md:z-1 ${
+        className={`fixed flex z-[11] h-full top-[4.5rem] text-white md:left-0 md:top-0 md:z-1  ${
           isMenuOpen
-            ? "left-0 top-[4.5rem] ease-in-out"
-            : "ease-in -left-[100%] top-20"
+            ? "duration-200 left-0 ease-in-out"
+            : "duration-200 ease-in -left-[100%] top-20 md:duration-0"
         }`}
       >
         <nav className={`items-center shadow bg-[#151B23]`}>
@@ -40,7 +40,7 @@ const ConsoleNav: FC<ConsoleNavProps> = ({ isMenuOpen, setIsMenuOpen }) => {
       {isMenuOpen && (
         <button
           onClick={() => setIsMenuOpen(false)}
-          className={`fixed top-[4.5rem] h-full w-full bg-black bg-opacity-50 z-10 md:hidden`}
+          className={`fixed top-[4.5rem] h-full w-full bg-black/50 z-10 md:hidden`}
         ></button>
       )}
     </>
