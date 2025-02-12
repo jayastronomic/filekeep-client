@@ -36,10 +36,16 @@ declare global {
     isLoading?: boolean;
   }
 
-  interface ConsoleContextData {
-    rootFolder: Folder;
-    isLoading: boolean;
+  interface ModalsState {
+    isCreateFolderModalOpen: boolean;
+    isNavModalOpen: boolean;
+    isProfileModalOpen: boolean;
+    isShareModalOpen: boolean;
   }
+
+  type ConsoleContextData = ModalsState & {
+    setModal: Dispatch<SetStateAction<ModalsState>>;
+  };
 
   interface ConsoleProviderProps {
     children: ReactNode;
@@ -82,11 +88,7 @@ declare global {
   interface ConsoleActionProps {
     label: string;
     icon: ReactNode;
-    action: (() => void) | (() => Dispatch<SetStateAction<boolean>>);
-  }
-
-  interface ConsoleActionsProps {
-    setIsCreateFolderModalOpen: Dispatch<SetStateAction<boolean>>;
+    action: (() => void) | undefined;
   }
 
   type ConsoleAction = {
@@ -104,10 +106,6 @@ declare global {
 
   interface CreateFolderModalProps {
     setIsCreateFolderModalOpen: Dispatch<SetStateAction<boolean>>;
-  }
-
-  interface ProfileMenuProps {
-    setIsProfileMenuOpen: Dispatch<SetStateAction<boolean>>;
   }
 
   interface AssetCardProps {
@@ -136,18 +134,15 @@ declare global {
   }
 
   interface ConsoleControlsProps {
-    setIsProfileMenuOpen: Dispatch<SetStateAction<boolean>>;
-    setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
     consoleScrollPosition: number;
-  }
-
-  interface ConsoleNavProps {
-    isMenuOpen: boolean;
-    setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
   }
 
   interface ErrorBannerProps {
     message: string;
+  }
+
+  interface ShareModalProps {
+    setIsShareModalOpen: Dispatch<SetStateAction<boolean>>;
   }
 }
 

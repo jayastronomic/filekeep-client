@@ -1,14 +1,12 @@
 import { MdOutlineFileUpload } from "react-icons/md";
 import { MdCreateNewFolder } from "react-icons/md";
 import ConsoleAction from "./ConsoleAction";
-import { ChangeEvent, FC, useRef } from "react";
+import { ChangeEvent, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import FileEndpoint from "../../endpoints/FileEndpoint";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 
-const ConsoleActions: FC<ConsoleActionsProps> = ({
-  setIsCreateFolderModalOpen,
-}) => {
+const ConsoleActions = () => {
   const currentFolder = useGetCurrentFolder();
   const inputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
@@ -48,11 +46,7 @@ const ConsoleActions: FC<ConsoleActionsProps> = ({
           return (
             <ConsoleAction
               key={label}
-              action={
-                label === "Upload"
-                  ? clickHandler
-                  : () => setIsCreateFolderModalOpen(true)
-              }
+              action={label === "Upload" ? clickHandler : undefined}
               label={label}
               icon={icon}
             />

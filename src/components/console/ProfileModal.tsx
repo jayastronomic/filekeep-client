@@ -1,8 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../../hooks/useAuth";
-import { FC } from "react";
+import { useContext } from "react";
+import { ConsoleContext } from "../contexts/ConsoleContext";
 
-const ProfileMenu: FC<ProfileMenuProps> = ({ setIsProfileMenuOpen }) => {
+const ProfileModal = () => {
+  const { setModal } = useContext(ConsoleContext);
   const queryClient = useQueryClient();
   const { authUser } = useAuth();
   const handleLogOut = () => {
@@ -27,11 +29,16 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ setIsProfileMenuOpen }) => {
         </button>
       </div>
       <button
-        onClick={() => setIsProfileMenuOpen(false)}
+        onClick={() =>
+          setModal((prev) => ({
+            ...prev,
+            isProfileModalOpen: false,
+          }))
+        }
         className="w-full h-full"
       ></button>
     </div>
   );
 };
 
-export default ProfileMenu;
+export default ProfileModal;

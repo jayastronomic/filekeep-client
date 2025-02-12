@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import FolderEndpoint from "../../endpoints/FolderEndpoint";
-import { FC, FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { FcFolder } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
+import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 
-const CreateFolderModal: FC<CreateFolderModalProps> = ({
-  setIsCreateFolderModalOpen,
-}) => {
+const CreateFolderModal = () => {
+  const { setModal } = useContext(ConsoleContext);
   const currentFolder = useGetCurrentFolder();
   const [folder, setFolder] = useState<NewFolder>({
     folderName: "",
@@ -25,7 +25,7 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutate(folder);
-    setIsCreateFolderModalOpen(false);
+    setModal((prev) => ({ ...prev, isCreateFolderModalOpen: false }));
   };
 
   return (
@@ -40,7 +40,12 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({
           </div>
           <div>
             <button
-              onClick={() => setIsCreateFolderModalOpen(false)}
+              onClick={() =>
+                setModal((prev) => ({
+                  ...prev,
+                  isCreateFolderModalOpen: false,
+                }))
+              }
               className="flex items-center justify-center hover:bg-gray-700 transition w-8 h-8 rounded-lg"
             >
               <IoClose className="text-gray-100 text-2xl" />
@@ -69,7 +74,12 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({
           </div>
           <div className="flex space-x-4 justify-end px-4">
             <button
-              onClick={() => setIsCreateFolderModalOpen(false)}
+              onClick={() =>
+                setModal((prev) => ({
+                  ...prev,
+                  isCreateFolderModalOpen: false,
+                }))
+              }
               className="text-gray-900 font-semibold bg-gray-400 p-2 rounded-md"
             >
               Cancel

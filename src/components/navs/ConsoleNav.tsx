@@ -1,16 +1,18 @@
-import { FC } from "react";
+import { useContext } from "react";
 import FileKeepIcon from "../home/FileKeepIcon";
 import { Link, useLocation } from "react-router";
 import { RiArchiveStackLine } from "react-icons/ri";
+import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 
-const ConsoleNav: FC<ConsoleNavProps> = ({ isMenuOpen, setIsMenuOpen }) => {
+const ConsoleNav = () => {
+  const { isNavModalOpen, setModal } = useContext(ConsoleContext);
   const { pathname } = useLocation();
   return (
     <>
       <div className="hidden ghost-nav w-[16rem] md:block"></div>
       <div
         className={`fixed flex z-[11] h-full top-[4.5rem] text-white md:left-0 md:top-0 md:z-1  ${
-          isMenuOpen
+          isNavModalOpen
             ? "duration-200 left-0 ease-in-out"
             : "duration-200 ease-in -left-[100%] top-20 md:duration-0"
         }`}
@@ -37,9 +39,11 @@ const ConsoleNav: FC<ConsoleNavProps> = ({ isMenuOpen, setIsMenuOpen }) => {
           </div>
         </div>
       </div>
-      {isMenuOpen && (
+      {isNavModalOpen && (
         <button
-          onClick={() => setIsMenuOpen(false)}
+          onClick={() =>
+            setModal((prev) => ({ ...prev, isNavModalOpen: false }))
+          }
           className={`fixed top-[4.5rem] h-full w-full bg-black/50 z-10 md:hidden`}
         ></button>
       )}

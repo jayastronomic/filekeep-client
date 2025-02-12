@@ -1,29 +1,36 @@
-import { useState, UIEvent, useEffect } from "react";
+import { useState, UIEvent, useEffect, useContext } from "react";
 import ConsoleActions from "../console/ConsoleActions";
 import ConsoleNav from "../navs/ConsoleNav";
 import { Outlet } from "react-router";
 import CreateFolderModal from "../console/CreateFolderModal";
 import ConsoleControls from "../console/ConsoleControls";
-import ProfileMenu from "../console/ProfileMenu";
+import ProfileModal from "../../components/console/ProfileModal";
+import ShareModal from "../../components/console/ShareModal";
+import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 const ConsoleLayout = () => {
-  const [isCreateFolderModalOpen, setIsCreatFolderModalOpen] =
-    useState<boolean>(false);
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const {
+    isNavModalOpen,
+    isProfileModalOpen,
+    isShareModalOpen,
+    isCreateFolderModalOpen,
+    setModal,
+  } = useContext(ConsoleContext);
+
   const [consoleScrollPosition, setConsoleScrollPosition] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const resize = () => {
       setWindowWidth(window.innerWidth);
-      if (windowWidth >= 768) setIsMenuOpen(false);
+      if (windowWidth >= 768)
+        setModal((prev) => ({ ...prev, isNavModalOpen: false }));
     };
 
     window.addEventListener("resize", resize);
     return () => {
       window.removeEventListener("resize", resize);
     };
-  }, [windowWidth]);
+  }, [windowWidth, setModal]);
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const { scrollTop } = e.currentTarget;
@@ -34,29 +41,18 @@ const ConsoleLayout = () => {
     <div
       onScroll={handleScroll}
       className={`relative flex flex-col h-full w-full flex-1 bg-[#0d1117] md:flex-row  ${
-        isMenuOpen ? "overflow-hidden" : "overflow-auto"
+        isNavModalOpen ? "overflow-hidden" : "overflow-auto"
       }`}
     >
-      <ConsoleNav setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
+      <ConsoleNav />
       <div className="flex flex-col flex-1">
-        <ConsoleControls
-          setIsProfileMenuOpen={setIsProfileMenuOpen}
-          setIsMenuOpen={setIsMenuOpen}
-          consoleScrollPosition={consoleScrollPosition}
-        />
-        <ConsoleActions
-          setIsCreateFolderModalOpen={setIsCreatFolderModalOpen}
-        />
+        <ConsoleControls consoleScrollPosition={consoleScrollPosition} />
+        <ConsoleActions />
         <Outlet />
       </div>
-      {isCreateFolderModalOpen && (
-        <CreateFolderModal
-          setIsCreateFolderModalOpen={setIsCreatFolderModalOpen}
-        />
-      )}
-      {isProfileMenuOpen && (
-        <ProfileMenu setIsProfileMenuOpen={setIsProfileMenuOpen} />
-      )}
+      {isCreateFolderModalOpen && <CreateFolderModal />}
+      {isProfileModalOpen && <ProfileModal />}
+      {isShareModalOpen && <ShareModal />}
     </div>
   );
 };

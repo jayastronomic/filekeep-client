@@ -1,12 +1,12 @@
+import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 import { useAuth } from "../../hooks/useAuth";
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { FaBars } from "react-icons/fa";
 
 const ConsoleControls: FC<ConsoleControlsProps> = ({
-  setIsProfileMenuOpen,
-  setIsMenuOpen,
   consoleScrollPosition,
 }) => {
+  const { setModal } = useContext(ConsoleContext);
   const { authUser } = useAuth();
   const { firstName, lastName } = authUser!;
   const initials = firstName.charAt(0) + lastName.charAt(0);
@@ -19,13 +19,23 @@ const ConsoleControls: FC<ConsoleControlsProps> = ({
       }`}
     >
       <button
-        onClick={() => setIsMenuOpen((prev) => !prev)}
+        onClick={() =>
+          setModal((prev) => ({
+            ...prev,
+            isNavModalOpen: !prev.isNavModalOpen,
+          }))
+        }
         className="group flex items-center justify-center rounded-full hover:bg-gray-800 h-10 w-10 transition md:hidden"
       >
         <FaBars className="text-gray-100 text-xl transition" />
       </button>
       <button
-        onClick={() => setIsProfileMenuOpen(true)}
+        onClick={() =>
+          setModal((prev) => ({
+            ...prev,
+            isProfileModalOpen: true,
+          }))
+        }
         className="text-center rounded-full hover:bg-gray-700 h-10 w-10 transition text-gray-300 border border-gray-800 text-xs"
       >
         {initials}
