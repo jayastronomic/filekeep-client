@@ -6,7 +6,7 @@ import ConsoleFileContainer from "./ConsoleFIleContainer";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 import { Link } from "react-router";
 
-const Folders = () => {
+const HomeFolder = () => {
   const currentFolder = useGetCurrentFolder();
 
   const { data } = useQuery({
@@ -36,7 +36,7 @@ const Folders = () => {
       );
 
     return (
-      <main className="flex flex-col h-full w-full">
+      <main className="flex flex-col h-full w-full p-4">
         {currentFolder === "home" ? (
           <h1 className="text-2xl font-bold text-gray-400 px-2">All Files</h1>
         ) : (
@@ -56,4 +56,4 @@ const Folders = () => {
   }
 };
 
-export default Folders;
+export default HomeFolder;

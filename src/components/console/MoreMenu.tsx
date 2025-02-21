@@ -3,7 +3,8 @@ import { FaTrash } from "react-icons/fa";
 import FileEndpoint from "../../endpoints/FileEndpoint";
 import { IoShareOutline } from "react-icons/io5";
 
-import { FC } from "react";
+import { FC, useContext } from "react";
+import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 
 const MoreMenu: FC<MoreMenuProps> = ({
   type,
@@ -11,9 +12,16 @@ const MoreMenu: FC<MoreMenuProps> = ({
   setIsOpen,
   handleDelete,
 }) => {
+  const { setModal } = useContext(ConsoleContext);
+
   const downloadFile = () => {
     const file = asset as FKFile;
     FileEndpoint.downloadFile(file.fileKey, file.fileName);
+  };
+
+  const handleShareModal = () => {
+    setModal((prev) => ({ ...prev, isShareModalOpen: true }));
+    setIsOpen(null);
   };
 
   return (
@@ -24,23 +32,24 @@ const MoreMenu: FC<MoreMenuProps> = ({
       ></button>
       <div
         className={`text-sm bg-[#151B23] rounded absolute right-4 flex flex-col p-2 shadow-md border border-gray-700 z-20 w-56 ${
-          type === "file" ? "-top-20" : "-top-10"
+          type === "file" ? "-top-30" : "-top-10"
         }`}
       >
         {type === "file" ? (
           <>
             <button
-              onClick={type === "file" ? () => downloadFile() : undefined}
+              onClick={type === "file" ? handleShareModal : undefined}
               className="flex items-center border-b border-gray-700 p-2 hover:bg-gray-800 z-[2] cursor-pointer"
             >
-              <LiaDownloadSolid className="text-lg mr-2" />
+              <IoShareOutline className="text-lg mr-2" />
+
               <span>Share</span>
             </button>
             <button
               onClick={type === "file" ? () => downloadFile() : undefined}
               className="flex items-center border-b border-gray-700 p-2 hover:bg-gray-800 z-[2] cursor-pointer"
             >
-              <IoShareOutline className="text-lg mr-2" />
+              <LiaDownloadSolid className="text-lg mr-2" />
               <span>Download</span>
             </button>
           </>

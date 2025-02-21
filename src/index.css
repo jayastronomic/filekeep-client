@@ -10,6 +10,10 @@ body,
   overflow: hidden;
 }
 
+button {
+  cursor: pointer;
+}
+
 @font-face {
   font-family: "Louis";
   src: url("/fonts/louis/Louis George Cafe.ttf");

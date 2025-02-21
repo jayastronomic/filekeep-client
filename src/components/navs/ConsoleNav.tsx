@@ -26,7 +26,7 @@ const ConsoleNav = () => {
         </nav>
         <div className="flex flex-col bg-[#151B23] w-[12.25rem] h-full border-l border-gray-700 p-4">
           <h1 className="font-semibold mb-8">Folders</h1>
-          <div className="flex flex-col">
+          <div className="flex flex-col space-y-3">
             <Link
               to="/home"
               className={`flex items-center space-x-4 rounded-xl p-2 hover:bg-gray-600 ${
@@ -34,6 +34,15 @@ const ConsoleNav = () => {
               }`}
             >
               <span>All files</span>
+              <RiArchiveStackLine />
+            </Link>
+            <Link
+              to="/shared"
+              className={`flex items-center space-x-4 rounded-xl p-2 hover:bg-gray-600 ${
+                pathname === "/shared" ? "bg-gray-600" : ""
+              }`}
+            >
+              <span>Shared</span>
               <RiArchiveStackLine />
             </Link>
           </div>

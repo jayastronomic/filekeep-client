@@ -45,11 +45,11 @@ const ConsoleLayout = () => {
       }`}
     >
       <ConsoleNav />
-      <div className="flex flex-col flex-1">
+      <main className="flex flex-col flex-1">
         <ConsoleControls consoleScrollPosition={consoleScrollPosition} />
         <ConsoleActions />
         <Outlet />
-      </div>
+      </main>
       {isCreateFolderModalOpen && <CreateFolderModal />}
       {isProfileModalOpen && <ProfileModal />}
       {isShareModalOpen && <ShareModal />}

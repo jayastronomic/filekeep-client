@@ -31,6 +31,25 @@ declare global {
     fileKey: string;
   }
 
+  interface SharedAccessFile {
+    id: string;
+    fileName: string;
+    size: number;
+    mimeType: string;
+    fileKey: string;
+    collaborators: string[];
+    owner: string;
+    assetType: "file";
+  }
+
+  interface SharedAccessFolder {
+    id: string;
+    folderName: string;
+    collaborators: string[];
+    owner: string;
+    assetType: "folder";
+  }
+
   interface AuthContextData {
     authUser: User | null;
     isLoading?: boolean;
@@ -143,6 +162,14 @@ declare global {
 
   interface ShareModalProps {
     setIsShareModalOpen: Dispatch<SetStateAction<boolean>>;
+  }
+
+  interface SharedFolderContainerProps {
+    sharedAssets: (SharedAccessFile | SharedAccessFolder)[];
+  }
+
+  interface SharedAssetCardProps {
+    asset: SharedAccessFile | SharedAccessFolder;
   }
 }
 

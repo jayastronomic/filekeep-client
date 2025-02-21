@@ -19,6 +19,7 @@ const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
   const [isOpen, setIsOpen] = useState<string | null>(null); //
   const endpoint =
     type === "file" ? FileEndpoint.deleteFile : FolderEndpoint.deleteFolder;
+
   const { mutate } = useMutation({
     mutationFn: endpoint,
     onSuccess() {

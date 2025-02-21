@@ -12,7 +12,6 @@ export default class AuthEndpoint {
 
     const data: ApiResponse<string> = await response.json();
 
-    if (response.status === 401) throw new Error(data.message);
     return data;
   }
 
