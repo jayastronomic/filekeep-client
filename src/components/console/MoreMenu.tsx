@@ -38,14 +38,6 @@ const MoreMenu: FC<MoreMenuProps> = ({
         {type === "file" ? (
           <>
             <button
-              onClick={type === "file" ? handleShareModal : undefined}
-              className="flex items-center border-b border-gray-700 p-2 hover:bg-gray-800 z-[2] cursor-pointer"
-            >
-              <IoShareOutline className="text-lg mr-2" />
-
-              <span>Share</span>
-            </button>
-            <button
               onClick={type === "file" ? () => downloadFile() : undefined}
               className="flex items-center border-b border-gray-700 p-2 hover:bg-gray-800 z-[2] cursor-pointer"
             >
@@ -54,6 +46,14 @@ const MoreMenu: FC<MoreMenuProps> = ({
             </button>
           </>
         ) : null}
+        <button
+          onClick={handleShareModal}
+          className="flex items-center border-b border-gray-700 p-2 hover:bg-gray-800 z-[2] cursor-pointer"
+        >
+          <IoShareOutline className="text-lg mr-2" />
+
+          <span>Share</span>
+        </button>
         <button
           onClick={
             type === "file"

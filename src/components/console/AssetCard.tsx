@@ -7,9 +7,8 @@ import FileEndpoint from "../../endpoints/FileEndpoint";
 import { RiFileList2Fill } from "react-icons/ri";
 import { TbPdf } from "react-icons/tb";
 import { FaImage } from "react-icons/fa";
-import { MdOutlineMoreHoriz } from "react-icons/md";
+import { MdOutlineMoreHoriz, MdFolder, MdFolderShared } from "react-icons/md";
 import MoreMenu from "./MoreMenu";
-import { FcFolder } from "react-icons/fc";
 import FolderEndpoint from "../../endpoints/FolderEndpoint";
 
 const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
@@ -54,23 +53,28 @@ const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
   };
 
   if (type === "file") {
-    const file = asset as FKFile;
+    const { id, mimeType, fileName, whoCanAccess } = asset as FKFile;
     return (
       <div
-        key={file.id}
-        className="relative flex border-b border-gray-700 py-4 hover:bg-gray-800 text-gray-200 items-center space-x-2 justify-between px-2"
+        key={id}
+        className="relative flex border-b border-gray-700 py-4 hover:bg-gray-800 text-gray-200 items-center space-x-2 pl-2 pr-10 text-sm"
       >
-        <div className="flex space-x-2">
-          <div className="text-2xl">{getFileIcon(file.mimeType)}</div>
-          <Link to="#">{file.fileName}</Link>
+        <div className="w-1/2 flex space-x-2">
+          <div className="text-2xl">{getFileIcon(mimeType)}</div>
+          <Link className="truncate" to="#">
+            {fileName}
+          </Link>
+        </div>
+        <div className="w-1/2 text-sm">
+          {whoCanAccess > 1 ? String(whoCanAccess) + " members" : "Only you"}
         </div>
         <button
-          onClick={() => handleMenuToggle(file.id)}
-          className="flex items-center justify-center relative hover:bg-gray-700 h-10 w-10 rounded transition"
+          onClick={() => handleMenuToggle(id)}
+          className="absolute flex items-center justify-center hover:bg-gray-700 h-10 w-10 right-2 rounded transition"
         >
           <MdOutlineMoreHoriz />
         </button>
-        {isOpen === file.id && (
+        {isOpen === id && (
           <MoreMenu
             type={"file"}
             asset={asset}
@@ -81,27 +85,32 @@ const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
       </div>
     );
   } else {
-    const folder = asset as Folder;
+    const { id, folderName, whoCanAccess } = asset as Folder;
     return (
       <div
-        key={folder.id}
-        className="relative flex border-b border-gray-700 py-4 hover:bg-gray-800 text-gray-200 items-center space-x-2 justify-between px-2"
+        key={id}
+        className="relative flex border-b border-gray-700 py-4 hover:bg-gray-800 text-gray-200 items-center space-x-2 pl-2 pr-10 justify-between"
       >
-        <div className="flex space-x-2">
+        <div className="flex w-1/2 space-x-2">
           <div className="text-2xl">
-            <FcFolder className="text-2xl" />
+            {whoCanAccess > 1 ? (
+              <MdFolderShared className="text-2xl" />
+            ) : (
+              <MdFolder className="text-2xl" />
+            )}
           </div>
-          <Link to={pathname + "/" + folder.folderName}>
-            {folder.folderName}
-          </Link>
+          <Link to={pathname + "/" + folderName}>{folderName}</Link>
+        </div>
+        <div className="w-1/2 text-sm">
+          {whoCanAccess > 1 ? String(whoCanAccess) + " members" : "Only you"}
         </div>
         <button
-          onClick={() => handleMenuToggle(folder.id)}
-          className="flex items-center justify-center relative hover:bg-gray-700 h-10 w-10 rounded transition"
+          onClick={() => handleMenuToggle(id)}
+          className="absolute flex items-center justify-center hover:bg-gray-700 h-10 w-10 right-2 rounded transition"
         >
           <MdOutlineMoreHoriz />
         </button>
-        {isOpen === folder.id && (
+        {isOpen === id && (
           <MoreMenu
             type={"folder"}
             asset={asset}

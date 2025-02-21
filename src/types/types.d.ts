@@ -10,12 +10,28 @@ declare global {
     passwordConfirmation?: string;
   }
 
-  interface Folder {
+  interface Asset {
     id: string;
+    whoCanAccess: number;
+  }
+
+  interface Folder extends Asset {
     folderName: string;
     parentFolder: Folder | null;
     subFolders: Folder[];
     files: FKFile[];
+  }
+
+  interface EmailData {
+    value: string;
+    isValid: boolean;
+  }
+
+  interface FKFile extends Asset {
+    fileName: string;
+    size: number;
+    mimeType: string;
+    fileKey: string;
   }
 
   interface NewFolder {
@@ -23,30 +39,25 @@ declare global {
     parentName: string;
   }
 
-  interface FKFile {
+  interface SharedAccess {
     id: string;
-    fileName: string;
-    size: number;
-    mimeType: string;
-    fileKey: string;
-  }
-
-  interface SharedAccessFile {
-    id: string;
-    fileName: string;
-    size: number;
-    mimeType: string;
-    fileKey: string;
     collaborators: string[];
     owner: string;
+    sharedOn: string;
+    whoCanAccess: number;
+  }
+
+  interface SharedAccessFile extends SharedAccess {
+    fileName: string;
+    size: number;
+    mimeType: string;
+    fileKey: string;
     assetType: "file";
   }
 
-  interface SharedAccessFolder {
+  interface SharedAccessFolder extends SharedAccess {
     id: string;
     folderName: string;
-    collaborators: string[];
-    owner: string;
     assetType: "folder";
   }
 
@@ -170,6 +181,10 @@ declare global {
 
   interface SharedAssetCardProps {
     asset: SharedAccessFile | SharedAccessFolder;
+  }
+
+  interface PillContainerProps {
+    setEmailError: Dispatch<SetStateAction<boolean>>;
   }
 }
 

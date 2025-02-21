@@ -30,6 +30,10 @@ const HomeFolder = () => {
         </div>
       ) : (
         <div className="flex flex-col h-full">
+          <div className="flex text-gray-300 text-sm pr-10 mb-2">
+            <span className="w-1/2">Name</span>
+            <span className="w-1/2">Who can access</span>
+          </div>
           <ConsoleFolderContainer folders={subFolders || []} />
           <ConsoleFileContainer files={files || []} />
         </div>
@@ -38,7 +42,7 @@ const HomeFolder = () => {
     return (
       <main className="flex flex-col h-full w-full p-4">
         {currentFolder === "home" ? (
-          <h1 className="text-2xl font-bold text-gray-400 px-2">All Files</h1>
+          <h1 className="text-2xl font-bold text-gray-400">All Files</h1>
         ) : (
           <Link
             className="text-gray-600 hover:underline hover:text-gray-500 self-start"

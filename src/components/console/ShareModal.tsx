@@ -1,6 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoCloseCircleOutline } from "react-icons/io5";
+
+import PillContainer from "./PillContainer";
 
 const ShareModal = () => {
   return (
@@ -12,9 +14,18 @@ const ShareModal = () => {
 };
 
 const ShareModalContent = () => {
+  const [emailError, setEmailError] = useState(false);
   return (
     <div className=" text-gray-100 flex flex-col p-4">
       <h1 className=" font-light text-2xl mb-10">Share this file</h1>
+      {emailError && (
+        <div className="w-full flex space-x-3 rounded-2xl p-5 bg-red-950 text-gray-200 mb-8">
+          <IoCloseCircleOutline className="text-lg" />
+          <span className="text-sm">
+            One or more email addresses you entered are invalid
+          </span>
+        </div>
+      )}
       <div className="flex justify-between">
         <p className="text-sm">
           Anyone with this link <b>can view</b>
@@ -24,13 +35,7 @@ const ShareModalContent = () => {
           Settings
         </button>
       </div>
-      <div className="w-full mt-8">
-        <input
-          role="combobox"
-          className="w-full text-sm border rounded py-1 px-2"
-          placeholder="Add an email"
-        />
-      </div>
+      <PillContainer setEmailError={setEmailError} />
       <div className="flex w-full mt-10 justify-end">
         <button
           disabled
