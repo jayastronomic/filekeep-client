@@ -3,7 +3,7 @@ import { MdCreateNewFolder } from "react-icons/md";
 import ConsoleAction from "./ConsoleAction";
 import { ChangeEvent, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import FileEndpoint from "../../endpoints/FileEndpoint";
+import { upload } from "../../endpoints/FileEndpoint";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 
 const ConsoleActions = () => {
@@ -16,13 +16,9 @@ const ConsoleActions = () => {
   ];
 
   const { mutate } = useMutation({
-    mutationFn: FileEndpoint.upload,
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: [`get-${currentFolder}`] });
-    },
-    onError(e) {
-      console.log(e);
-    },
+    mutationFn: upload,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: [`get-${currentFolder}`] }),
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

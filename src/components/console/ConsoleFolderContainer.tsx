@@ -9,7 +9,7 @@ const ConsoleFolderContainer: FC<ConsoleFolderContainerProps> = ({
       {folders
         .sort((a, b) => a.folderName.localeCompare(b.folderName))
         .map((folder) => {
-          return <AssetCard asset={folder} type={"folder"} />;
+          return <AssetCard key={folder.id} asset={folder} type={"folder"} />;
         })}
     </div>
   );

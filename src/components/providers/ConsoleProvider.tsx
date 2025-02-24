@@ -9,8 +9,10 @@ const ConsoleProvider: FC<ConsoleProviderProps> = ({ children }) => {
     isShareModalOpen: false,
   });
 
+  const [asset, setAsset] = useState({} as FKFile | Folder);
+
   return (
-    <ConsoleContext.Provider value={{ ...modals, setModal }}>
+    <ConsoleContext.Provider value={{ ...modals, setModal, asset, setAsset }}>
       {children}
     </ConsoleContext.Provider>
   );

@@ -3,21 +3,20 @@ import { Link, useLocation } from "react-router";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
-import FileEndpoint from "../../endpoints/FileEndpoint";
+import { deleteFile } from "../../endpoints/FileEndpoint";
 import { RiFileList2Fill } from "react-icons/ri";
 import { TbPdf } from "react-icons/tb";
 import { FaImage } from "react-icons/fa";
 import { MdOutlineMoreHoriz, MdFolder, MdFolderShared } from "react-icons/md";
 import MoreMenu from "./MoreMenu";
-import FolderEndpoint from "../../endpoints/FolderEndpoint";
+import { deleteFolder } from "../../endpoints/FolderEndpoint";
 
 const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
   const { pathname } = useLocation();
   const queryClient = useQueryClient();
   const currentFolder = useGetCurrentFolder();
   const [isOpen, setIsOpen] = useState<string | null>(null); //
-  const endpoint =
-    type === "file" ? FileEndpoint.deleteFile : FolderEndpoint.deleteFolder;
+  const endpoint = type === "file" ? deleteFile : deleteFolder;
 
   const { mutate } = useMutation({
     mutationFn: endpoint,
@@ -40,11 +39,8 @@ const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
   };
 
   const handleMenuToggle = (id: string) => {
-    if (isOpen === id) {
-      setIsOpen(null);
-    } else {
-      setIsOpen(id);
-    }
+    if (isOpen === id) setIsOpen(null);
+    else setIsOpen(id);
   };
 
   const handleDelete = (assetId: string) => {

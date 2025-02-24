@@ -22,11 +22,6 @@ declare global {
     files: FKFile[];
   }
 
-  interface EmailData {
-    value: string;
-    isValid: boolean;
-  }
-
   interface FKFile extends Asset {
     fileName: string;
     size: number;
@@ -61,6 +56,11 @@ declare global {
     assetType: "folder";
   }
 
+  interface ShareData {
+    userEmails: string[];
+    id: string;
+  }
+
   interface AuthContextData {
     authUser: User | null;
     isLoading?: boolean;
@@ -75,6 +75,8 @@ declare global {
 
   type ConsoleContextData = ModalsState & {
     setModal: Dispatch<SetStateAction<ModalsState>>;
+    asset: FKFile | Folder;
+    setAsset: Dispatch<SetStateAction<FKFile | Folder>>;
   };
 
   interface ConsoleProviderProps {
@@ -184,7 +186,9 @@ declare global {
   }
 
   interface PillContainerProps {
-    setEmailError: Dispatch<SetStateAction<boolean>>;
+    setEmailList: Dispatch<SetStateAction<string[]>>;
+    emailList: string[];
+    validEmail: (email: string) => boolean;
   }
 }
 

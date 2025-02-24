@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import FolderEndpoint from "../../endpoints/FolderEndpoint";
+import { getFolder } from "../../endpoints/FolderEndpoint";
 import { MdOutlineFileUpload } from "react-icons/md";
 import ConsoleFolderContainer from "./ConsoleFolderContainer";
 import ConsoleFileContainer from "./ConsoleFIleContainer";
@@ -11,7 +11,7 @@ const HomeFolder = () => {
 
   const { data } = useQuery({
     queryKey: [`get-${currentFolder}`],
-    queryFn: () => FolderEndpoint.getFolder(currentFolder),
+    queryFn: () => getFolder(currentFolder),
   });
 
   if (data) {

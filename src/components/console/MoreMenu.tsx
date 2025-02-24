@@ -1,8 +1,7 @@
 import { LiaDownloadSolid } from "react-icons/lia";
 import { FaTrash } from "react-icons/fa";
-import FileEndpoint from "../../endpoints/FileEndpoint";
+import { downloadFile } from "../../endpoints/FileEndpoint";
 import { IoShareOutline } from "react-icons/io5";
-
 import { FC, useContext } from "react";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 
@@ -12,15 +11,11 @@ const MoreMenu: FC<MoreMenuProps> = ({
   setIsOpen,
   handleDelete,
 }) => {
-  const { setModal } = useContext(ConsoleContext);
-
-  const downloadFile = () => {
-    const file = asset as FKFile;
-    FileEndpoint.downloadFile(file.fileKey, file.fileName);
-  };
+  const { setModal, setAsset } = useContext(ConsoleContext);
 
   const handleShareModal = () => {
     setModal((prev) => ({ ...prev, isShareModalOpen: true }));
+    setAsset(asset);
     setIsOpen(null);
   };
 
@@ -38,7 +33,11 @@ const MoreMenu: FC<MoreMenuProps> = ({
         {type === "file" ? (
           <>
             <button
-              onClick={type === "file" ? () => downloadFile() : undefined}
+              onClick={
+                type === "file"
+                  ? () => downloadFile(asset as FKFile)
+                  : undefined
+              }
               className="flex items-center border-b border-gray-700 p-2 hover:bg-gray-800 z-[2] cursor-pointer"
             >
               <LiaDownloadSolid className="text-lg mr-2" />

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import FolderEndpoint from "../../endpoints/FolderEndpoint";
+import { createFolder } from "../../endpoints/FolderEndpoint";
 import { FormEvent, useContext, useState } from "react";
 import { FcFolder } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
@@ -16,7 +16,7 @@ const CreateFolderModal = () => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: FolderEndpoint.createFolder,
+    mutationFn: createFolder,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: [`get-${currentFolder}`] });
     },
@@ -74,6 +74,7 @@ const CreateFolderModal = () => {
           </div>
           <div className="flex space-x-4 justify-end px-4">
             <button
+              type="submit"
               onClick={() =>
                 setModal((prev) => ({
                   ...prev,
