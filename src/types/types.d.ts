@@ -61,6 +61,15 @@ declare global {
     id: string;
   }
 
+  interface NewShareableLinkData {
+    id: string;
+    type: "folder" | "file";
+  }
+
+  interface ShareableLinkData {
+    shareableUrl: string;
+  }
+
   interface AuthContextData {
     authUser: User | null;
     isLoading?: boolean;
