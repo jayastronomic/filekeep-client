@@ -199,6 +199,10 @@ declare global {
     emailList: string[];
     validEmail: (email: string) => boolean;
   }
+
+  interface FileViewProps {
+    blob: Blob;
+  }
 }
 
 export {};

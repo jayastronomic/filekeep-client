@@ -13,12 +13,13 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     retry: false,
   });
 
-  if (isError)
+  if (isError) {
     return (
       <AuthContext.Provider value={{ authUser: null }}>
         {children}
       </AuthContext.Provider>
     );
+  }
 
   if (data) {
     const { data: authUser } = data;

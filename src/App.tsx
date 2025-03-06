@@ -8,6 +8,7 @@ import UnauthenticatedTemplate from "./components/templates/UnauthenticatedTempl
 import NotFound from "./components/errors/NotFound";
 import HomeFolder from "./components/console/HomeFolder";
 import SharedFolder from "./components/console/SharedFolder";
+import ShareableLinkPage from "./components/shareable/ShareableLinkPage";
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
       <AuthenticatedTemplate>
         <Route element={<ConsoleLayout />}>
           <Route index path="/home/*" element={<HomeFolder />} />
-          <Route index path="/shared/*" element={<SharedFolder />} />
+          <Route path="/shared/*" element={<SharedFolder />} />
         </Route>
+        <Route path="/s/:token/:assetName" element={<ShareableLinkPage />} />
         <Route path="*" element={<NotFound />} />
       </AuthenticatedTemplate>
 
@@ -27,6 +29,7 @@ function App() {
           <Route path="/login" element={<Registrations />} />
           <Route path="*" element={<NotFound />} />
         </Route>
+        <Route path="/s/:token/:assetName" element={<ShareableLinkPage />} />
       </UnauthenticatedTemplate>
     </BrowserRouter>
   );
