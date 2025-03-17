@@ -15,9 +15,11 @@ async function createShareableLink(
   return await response.json();
 }
 
-async function getShareableFile(token: string) {
+async function getShareableFile(
+  token: string
+): Promise<ApiResponse<ShareableFileData>> {
   const response = await fetch(API + "/file?token=" + token);
-  return await response.blob();
+  return await response.json();
 }
 
 export { createShareableLink, getShareableFile };

@@ -70,6 +70,13 @@ declare global {
     shareableUrl: string;
   }
 
+  interface ShareableFileData {
+    fileName: string;
+    mimeType: string;
+    size: number;
+    content: string;
+  }
+
   interface AuthContextData {
     authUser: User | null;
     isLoading?: boolean;
@@ -201,6 +208,15 @@ declare global {
   }
 
   interface FileViewProps {
+    blob: Blob;
+    isLoading: boolean;
+  }
+
+  interface TextAssetProps {
+    blob: Blob;
+  }
+
+  interface ImageAssetProps {
     blob: Blob;
   }
 }

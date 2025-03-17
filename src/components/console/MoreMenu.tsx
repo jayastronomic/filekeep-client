@@ -90,6 +90,7 @@ const MoreMenu: FC<MoreMenuProps> = ({
                 autoFocus
                 className="ring-2 rounded-md px-2 py-1 caret-transparent text-xs"
                 value={shareableURL}
+                readOnly
               />
               <span className="flex items-center space-x-2">
                 <IoIosGlobe className="text-xs" />
