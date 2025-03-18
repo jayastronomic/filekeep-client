@@ -77,6 +77,10 @@ declare global {
     content: string;
   }
 
+  interface ShareableFolderData {
+    folderData: Folder;
+  }
+
   interface AuthContextData {
     authUser: User | null;
     isLoading?: boolean;
@@ -87,6 +91,7 @@ declare global {
     isNavModalOpen: boolean;
     isProfileModalOpen: boolean;
     isShareModalOpen: boolean;
+    isManageLinkModalOpen: boolean;
   }
 
   type ConsoleContextData = ModalsState & {
@@ -207,17 +212,16 @@ declare global {
     validEmail: (email: string) => boolean;
   }
 
-  interface FileViewProps {
-    blob: Blob;
-    isLoading: boolean;
-  }
-
   interface TextAssetProps {
     blob: Blob;
   }
 
   interface ImageAssetProps {
     blob: Blob;
+  }
+
+  interface AccessDropDownProps {
+    setIsAccessDropDownOpen: Dispatch<SetStateAction<boolean>>;
   }
 }
 

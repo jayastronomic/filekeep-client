@@ -7,7 +7,6 @@ const SharedFolder = () => {
     queryKey: ["get-shared-assets"],
     queryFn: SharedAccessEndpoint.getSharedAssets,
   });
-  console.log("hwello");
 
   if (data) {
     const { data: sharedAssets } = data;

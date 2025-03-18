@@ -22,4 +22,11 @@ async function getShareableFile(
   return await response.json();
 }
 
-export { createShareableLink, getShareableFile };
+async function getShareableFolder(
+  token: string
+): Promise<ApiResponse<ShareableFolderData>> {
+  const response = await fetch(API + "/folder?token=" + token);
+  return await response.json();
+}
+
+export { createShareableLink, getShareableFile, getShareableFolder };

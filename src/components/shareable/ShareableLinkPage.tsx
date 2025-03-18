@@ -1,6 +1,5 @@
 import { Link, useParams, useSearchParams } from "react-router";
 import FileKeepIcon from "../../components/home/FileKeepIcon";
-import { useAuth } from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { getShareableFile } from "../../endpoints/ShareableLinkEndpoint";
 import { FC, useEffect, useState } from "react";
@@ -9,12 +8,21 @@ import { base64ToBlob } from "../../helpers/base64ToBlob";
 import { LiaDownloadSolid } from "react-icons/lia";
 
 const ShareableLinkPage = () => {
-  const { authUser } = useAuth();
   const [searchParams] = useSearchParams();
-  const { token } = useParams();
   const type = searchParams.get("t");
+
+  return (
+    <main className="h-full w-full flex flex-col bg-[#0d1117] overflow-auto">
+      {type === "0" && <FileView />}
+    </main>
+  );
+};
+
+const FileView: FC = () => {
+  const { token } = useParams();
+
   const { data, isLoading } = useQuery({
-    queryKey: [`get-shareable-${type === "0" ? "file" : "folder"}`],
+    queryKey: ["get-shareable-file"],
     queryFn: () => getShareableFile(token!),
   });
 
@@ -34,8 +42,20 @@ const ShareableLinkPage = () => {
     window.URL.revokeObjectURL(url);
   };
 
+  const renderBlobView = (blob: Blob) => {
+    const [type] = blob.type.split("/");
+    switch (type) {
+      case "text":
+        return <TextAsset blob={blob} />;
+      case "image":
+        return <ImageAsset blob={blob} />;
+      default:
+        return;
+    }
+  };
+
   return (
-    <main className="h-full w-full flex flex-col bg-[#0d1117] overflow-auto">
+    <>
       <header className="flex items-center justify-between pr-6 bg-[#151B23] text-gray-100">
         <div className="flex items-center">
           <Link className="" to="/">
@@ -59,33 +79,10 @@ const ShareableLinkPage = () => {
           </button>
         </div>
       </header>
-      {type === "0" && <FileView isLoading={isLoading} blob={blob} />}
-      {type === "1" && <FolderView />}
-    </main>
-  );
-};
-
-const FolderView = () => {
-  return <div></div>;
-};
-
-const FileView: FC<FileViewProps> = ({ blob, isLoading }) => {
-  const renderBlobView = (blob: Blob) => {
-    const [type] = blob.type.split("/");
-    switch (type) {
-      case "text":
-        return <TextAsset blob={blob} />;
-      case "image":
-        return <ImageAsset blob={blob} />;
-      default:
-        return;
-    }
-  };
-
-  return (
-    <div className="flex items-center justify-center h-full p-10">
-      {isLoading ? <MoonLoader /> : renderBlobView(blob)}
-    </div>
+      <div className="flex flex-col items-center justify-center h-full p-10">
+        {isLoading ? <MoonLoader /> : renderBlobView(blob)}
+      </div>
+    </>
   );
 };
 

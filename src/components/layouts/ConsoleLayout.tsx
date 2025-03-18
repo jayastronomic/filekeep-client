@@ -7,12 +7,14 @@ import ConsoleControls from "../console/ConsoleControls";
 import ProfileModal from "../../components/console/ProfileModal";
 import ShareModal from "../../components/console/ShareModal";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
+import ManageLinkModal from "../../components/console/ManageLinkModal";
 const ConsoleLayout = () => {
   const {
     isNavModalOpen,
     isProfileModalOpen,
     isShareModalOpen,
     isCreateFolderModalOpen,
+    isManageLinkModalOpen,
     setModal,
   } = useContext(ConsoleContext);
 
@@ -54,6 +56,7 @@ const ConsoleLayout = () => {
       {isCreateFolderModalOpen && <CreateFolderModal />}
       {isProfileModalOpen && <ProfileModal />}
       {isShareModalOpen && <ShareModal />}
+      {isManageLinkModalOpen && <ManageLinkModal />}
     </div>
   );
 };
