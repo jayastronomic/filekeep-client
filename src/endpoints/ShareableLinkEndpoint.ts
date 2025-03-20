@@ -29,4 +29,25 @@ async function getShareableFolder(
   return await response.json();
 }
 
-export { createShareableLink, getShareableFile, getShareableFolder };
+async function updateShareableFileLink(
+  payload: UpdateShareableLinkData,
+  token: string
+): Promise<ApiResponse<FKFile>> {
+  const response = await fetch(API + "/file?token=" + token, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  return await response.json();
+}
+
+export {
+  createShareableLink,
+  getShareableFile,
+  getShareableFolder,
+  updateShareableFileLink,
+};

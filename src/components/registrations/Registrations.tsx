@@ -1,11 +1,12 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import TextField from "../utility/TextField";
 import { useLocation } from "react-router";
-import { ChangeEvent, FC, FormEvent, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useContext, useState } from "react";
 import AuthEndpoint from "../../endpoints/AuthEndpoint";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import FileKeepIcon from "../../components/home/FileKeepIcon";
 import ErrorBanner from "./ErrorBanner";
+import { AuthContext } from "../../components/contexts/AuthContext";
 
 const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
   const { email, password, passwordConfirmation, firstName, lastName } = user;
@@ -71,6 +72,7 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
 
 const LogIn: FC<LogInPrps> = ({ handleChange, user, isPending }) => {
   const { email, password } = user;
+
   return (
     <div className="w-full space-y-4">
       <TextField
@@ -99,7 +101,7 @@ const LogIn: FC<LogInPrps> = ({ handleChange, user, isPending }) => {
       </button>
       <div className="w-full flex items-center space-x-1 text-white text-sm">
         <span>Don't have an account? </span>
-        <Link to="/register" className="text-blue-400 hover:underline">
+        <Link to={"/register"} className="text-blue-400 hover:underline">
           Sign up
         </Link>
       </div>
@@ -107,7 +109,12 @@ const LogIn: FC<LogInPrps> = ({ handleChange, user, isPending }) => {
   );
 };
 
-const Registrations = () => {
+const Registrations: FC<RegistrationsProps> = ({
+  classes = "",
+  assetName,
+  secured,
+  token,
+}) => {
   const [user, setUser] = useState<User>({
     email: "",
     firstName: "",
@@ -115,6 +122,7 @@ const Registrations = () => {
     password: "",
     passwordConfirmation: "",
   });
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { pathname } = useLocation();
   const title = pathname === "/register" ? "Sign up" : "Log in";
@@ -127,6 +135,7 @@ const Registrations = () => {
       if (status === "SUCCESS") {
         localStorage.setItem("token", data);
         queryClient.invalidateQueries({ queryKey: ["is-logged-in"] });
+        if (pathname.startsWith("/s")) navigate(`/s/${token}/${assetName}`);
       }
     },
   });
@@ -145,18 +154,29 @@ const Registrations = () => {
   };
 
   return (
-    <main className="bg-[#0d1117] flex flex-col items-center w-full h-full p-4">
-      <Link className="pointer" to={"/"}>
-        <FileKeepIcon width="50" height="50" viewBox="85 90 200 200" />
-      </Link>
+    <main
+      className={`bg-[#0d1117] flex flex-col items-center w-full h-full p-4 ${classes}`}
+    >
+      {!secured && (
+        <Link className="pointer" to={"/"}>
+          <FileKeepIcon width="50" height="50" viewBox="85 90 200 200" />
+        </Link>
+      )}
       <h1 className="text-2xl text-white">{title}</h1>
 
       {pathname === "/login" && error && (
         <ErrorBanner message={error.message} />
       )}
+      {secured && (
+        <div className="text-xl text-gray-200 mt-4 text-center">
+          <span>To keep </span>
+          <span className="text-gray-500">{assetName} </span>
+          <span>secure, we need to confirm your identity </span>
+        </div>
+      )}
       <form
         onSubmit={handleSubmit}
-        className="p-2 mt-8 w-[18rem] border border-gray-600 rounded-lg bg-[#151B23] p-4"
+        className="mt-8 w-[18rem] border border-gray-600 rounded-lg bg-[#151B23] p-4"
       >
         {pathname === "/register" ? (
           <SignUp

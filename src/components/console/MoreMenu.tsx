@@ -90,7 +90,10 @@ const MoreMenu: FC<MoreMenuProps> = ({
                   <span className="flex items-center space-x-2">
                     <IoIosGlobe className="text-xs" />
                     <span className="text-xs text-gray-500">
-                      Anyone with this link can view
+                      {asset.shareableLink.linkAccessType === "PUBLIC" &&
+                        "Anyone with this link can view"}
+                      {asset.shareableLink.linkAccessType === "PRIVATE" &&
+                        "Only you can view this link"}
                     </span>
                     <button onClick={handleManageLink} className="underline">
                       Manage

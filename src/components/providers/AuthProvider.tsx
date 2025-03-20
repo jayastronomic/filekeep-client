@@ -6,10 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const { data, isError } = useQuery({
     queryKey: ["is-logged-in"],
-    queryFn: () => {
-      console.log("fetching user...");
-      return AuthEndpoint.isLoggedIn();
-    },
+    queryFn: AuthEndpoint.isLoggedIn,
     retry: false,
   });
 

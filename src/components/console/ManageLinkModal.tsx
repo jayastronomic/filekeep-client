@@ -1,17 +1,45 @@
 import { FaChevronDown } from "react-icons/fa6";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 import { FC, useContext, useState } from "react";
+import { IoCheckmark } from "react-icons/io5";
+import { useMutation } from "@tanstack/react-query";
+import { updateShareableFileLink } from "../../endpoints/ShareableLinkEndpoint";
+import PopUp from "./PopUp";
 
 const ManageLinkModal = () => {
+  const { setModal, asset, setAsset } = useContext(ConsoleContext);
+  const [showPopUp, setShowPopUp] = useState(false);
   const [isAccessDropDownOpen, setIsAccessDropDownOpen] = useState(false);
-  const { setModal, asset } = useContext(ConsoleContext);
+  const [access, setAccess] = useState({
+    linkAccessType: asset.shareableLink.linkAccessType,
+  });
+
   const assetName = (asset as FKFile).fileName;
+
+  const { mutate, isPending, isIdle, isSuccess } = useMutation({
+    mutationFn: () =>
+      updateShareableFileLink(access, asset.shareableLink.token),
+    onSuccess: ({ data }) => {
+      setAsset(data);
+      setShowPopUp(true);
+      setTimeout(() => {
+        setShowPopUp(false);
+      }, 3000);
+    },
+  });
+
+  const handleSave = () => {
+    mutate();
+    setAsset(asset);
+  };
+
   return (
     <div className="fixed h-full w-full z-[21] md:flex md:items-center md:justify-center">
       <button
-        onClick={() =>
-          setModal((prev) => ({ ...prev, isManageLinkModalOpen: false }))
-        }
+        onClick={() => {
+          setModal((prev) => ({ ...prev, isManageLinkModalOpen: false }));
+          setAsset({} as FKFile);
+        }}
         className="absolute bg-black/50 h-full w-full"
       ></button>
       <div className="absolute flex flex-col p-8 h-full w-full md:max-w-[38rem] md:h-1/2 bg-[#151B23]">
@@ -36,26 +64,55 @@ const ManageLinkModal = () => {
                 onClick={() => setIsAccessDropDownOpen(true)}
                 className="flex items-center  space-x-2 bg-gray-500 text-gray-100 rounded-lg px-2 py-1 text-sm font-semibold hover:bg-gray-600 transition"
               >
-                <span>Anyone with link</span>
+                <span>
+                  {access.linkAccessType === "PUBLIC" && "Anyone with link"}
+                  {access.linkAccessType === "PRIVATE" && "Only me"}
+                </span>
                 <FaChevronDown className="text-xs" />
               </button>
               {isAccessDropDownOpen && (
                 <AccessDropDown
                   setIsAccessDropDownOpen={setIsAccessDropDownOpen}
+                  setAccess={setAccess}
+                  access={access}
                 />
               )}
             </div>
           </div>
         </div>
+        <div className="flex justify-end mt-2">
+          <button
+            onClick={handleSave}
+            type="button"
+            disabled={
+              access.linkAccessType === asset.shareableLink.linkAccessType
+            }
+            className={`text-white font-semibold  p-2 rounded-md ${
+              access.linkAccessType === asset.shareableLink.linkAccessType
+                ? "bg-gray-700 opacity-30 cursor-not-allowed border border-transparent"
+                : "bg-gray-900 opacity-100 border border-gray-800"
+            }`}
+          >
+            {isIdle && "Save"}
+            {isPending && "Saving"}
+            {isSuccess && "Save"}
+          </button>
+        </div>
       </div>
+      {showPopUp && <PopUp content="Settings Saved" />}
     </div>
   );
 };
 
 const AccessDropDown: FC<AccessDropDownProps> = ({
   setIsAccessDropDownOpen,
+  access,
+  setAccess,
 }) => {
-  const { asset } = useContext(ConsoleContext);
+  const handleChangeAccess = (access: UpdateShareableLinkData) => {
+    setAccess(access);
+    setIsAccessDropDownOpen(false);
+  };
 
   return (
     <>
@@ -63,26 +120,34 @@ const AccessDropDown: FC<AccessDropDownProps> = ({
         onClick={() => setIsAccessDropDownOpen(false)}
         className="fixed h-full inset-0"
       ></button>
-      <div className="absolute z-[1] flex flex-col w-[20rem] right-0 -bottom-26 bg-[#151B23] border border-gray-800 shadow">
+      <div className="absolute z-[1] flex flex-col w-[20rem] right-0 -bottom-29 bg-[#151B23] border border-gray-800 shadow">
         <button
+          onClick={() => handleChangeAccess({ linkAccessType: "PUBLIC" })}
           type="button"
           className="flex flex-col space-y-1 hover:bg-gray-900 p-4"
         >
-          <span className="self-start text-gray-300 font-semibold text-sm">
-            Anyone with link
-          </span>
-          <span className="self-start text-xs text-gray-500">
+          <div className="flex items-center space-x-2 text-gray-300 font-semibold text-sm">
+            {(access.linkAccessType === "PUBLIC" && <IoCheckmark />) || (
+              <div className="w-4"></div>
+            )}
+            <span>Anyone with link</span>
+          </div>
+          <span className="self-start pl-6 text-xs text-gray-500">
             Anyone with this link can view the file
           </span>
         </button>
         <button
+          onClick={() => handleChangeAccess({ linkAccessType: "PRIVATE" })}
           type="button"
           className="flex flex-col space-y-1 hover:bg-gray-900 p-4"
         >
-          <span className="self-start text-gray-300 font-semibold text-sm">
-            Only me
-          </span>
-          <span className="self-start text-xs text-gray-500">
+          <div className="flex items-center space-x-2 text-gray-300 font-semibold text-sm">
+            {(access.linkAccessType === "PRIVATE" && <IoCheckmark />) || (
+              <div className="w-4"></div>
+            )}
+            <span>Only me</span>
+          </div>
+          <span className=" self-start pl-6 text-xs text-gray-500">
             The file can only be viewed by me
           </span>
         </button>

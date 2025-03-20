@@ -9,6 +9,7 @@ const UnauthenticatedTemplate = ({ children }: { children: ReactNode }) => {
     return null; // Do not render anything if authenticated
   }
 
+  console.log("Unauthenticated");
   return (
     <Routes>
       <Route path="/home/*" element={<Navigate to={"/login"} />} />

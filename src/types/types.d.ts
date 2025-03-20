@@ -13,6 +13,7 @@ declare global {
   interface Asset {
     id: string;
     whoCanAccess: number;
+    shareableLink: ShareableLinkData;
   }
 
   interface Folder extends Asset {
@@ -66,15 +67,25 @@ declare global {
     type: "folder" | "file";
   }
 
+  type LinkAccessType = "PUBLIC" | "PRIVATE" | "PROTECTED";
+
+  interface UpdateShareableLinkData {
+    linkAccessType: LinkAccessType;
+  }
+
   interface ShareableLinkData {
     shareableUrl: string;
+    token: string;
+    linkAccessType: LinkAccessType;
   }
 
   interface ShareableFileData {
+    ownerId: string;
     fileName: string;
     mimeType: string;
     size: number;
     content: string;
+    linkAccessType: LinkAccessType;
   }
 
   interface ShareableFolderData {
@@ -222,6 +233,37 @@ declare global {
 
   interface AccessDropDownProps {
     setIsAccessDropDownOpen: Dispatch<SetStateAction<boolean>>;
+    setAccess: Dispatch<SetStateAction<UpdateShareableLinkData>>;
+    access: UpdateShareableLinkData;
+  }
+
+  interface PopUpProps {
+    content: string;
+  }
+
+  interface FileViewProps {
+    fileData?: ShareableFileData;
+    isLoading?: boolean;
+  }
+
+  interface ProtectProps {
+    children: ReactNode;
+    assetName: string;
+    token: string;
+  }
+
+  interface RegistrationsProps {
+    classes?: string;
+    secured?: boolean;
+    assetName?: string;
+    token?: string;
+  }
+
+  interface SVG {
+    className?: string;
+    viewBox?: string;
+    height?: string;
+    width?: string;
   }
 }
 

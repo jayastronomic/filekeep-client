@@ -5,6 +5,7 @@ import { FcFolder } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
+import PopUp from "./PopUp";
 
 const CreateFolderModal = () => {
   const { setModal } = useContext(ConsoleContext);

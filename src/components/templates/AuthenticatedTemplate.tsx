@@ -10,6 +10,8 @@ const AuthenticatedTemplate = ({ children }: { children: ReactNode }) => {
     return null; // Do not render anything if not authenticated
   }
 
+  console.log("Authenticated");
+
   return (
     <ConsoleProvider>
       <Routes>
