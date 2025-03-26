@@ -1,7 +1,8 @@
 import { useLocation } from "react-router";
 
-export function useGetCurrentFolder() {
-  const { pathname } = useLocation();
+export function useGetCurrentFolder(): CurrentFolderData {
+  const { pathname, state } = useLocation();
   const paths = pathname.split("/");
-  return paths[paths.length - 1];
+  const currentFolder = paths[paths.length - 1];
+  return { folderName: currentFolder, state };
 }

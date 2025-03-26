@@ -1,7 +1,7 @@
 export default class AuthEndpoint {
   private static API = import.meta.env.VITE_BACKEND_URL + "/api/v1/auth";
 
-  public static async login(payload: User): Promise<ApiResponse<string>> {
+  public static async login(payload: LoginData): Promise<ApiResponse<string>> {
     const response = await fetch(AuthEndpoint.API + "/login", {
       method: "POST",
       headers: {
@@ -15,7 +15,7 @@ export default class AuthEndpoint {
     return data;
   }
 
-  public static async register(payload: User): Promise<ApiResponse<string>> {
+  public static async register(payload: NewUser): Promise<ApiResponse<string>> {
     const response = await fetch(AuthEndpoint.API + "/register", {
       method: "POST",
       headers: {
@@ -28,7 +28,7 @@ export default class AuthEndpoint {
     return data;
   }
 
-  public static async isLoggedIn(): Promise<ApiResponse<User>> {
+  public static async isLoggedIn(): Promise<ApiResponse<AuthUser>> {
     const response = await fetch(AuthEndpoint.API + "/logged_in", {
       method: "GET",
       headers: {

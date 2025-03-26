@@ -57,9 +57,7 @@ const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
       >
         <div className="w-1/2 flex space-x-2">
           <div className="text-2xl">{getFileIcon(mimeType)}</div>
-          <Link className="truncate" to="#">
-            {fileName}
-          </Link>
+          <div className="truncate">{fileName}</div>
         </div>
         <div className="w-1/2 text-sm">
           {whoCanAccess > 1 ? String(whoCanAccess) + " members" : "Only you"}
@@ -95,7 +93,12 @@ const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
               <MdFolder className="text-2xl" />
             )}
           </div>
-          <Link to={pathname + "/" + folderName}>{folderName}</Link>
+          <Link
+            to={pathname + "/" + folderName}
+            state={{ currentFolderId: id }}
+          >
+            {folderName}
+          </Link>
         </div>
         <div className="w-1/2 text-sm">
           {whoCanAccess > 1 ? String(whoCanAccess) + " members" : "Only you"}

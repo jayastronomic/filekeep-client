@@ -69,7 +69,7 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
   );
 };
 
-const LogIn: FC<LogInPrps> = ({ handleChange, user, isPending }) => {
+const LogIn: FC<LogInProps> = ({ handleChange, user, isPending }) => {
   const { email, password } = user;
 
   return (
@@ -114,7 +114,7 @@ const Registrations: FC<RegistrationsProps> = ({
   secured,
   token,
 }) => {
-  const [user, setUser] = useState<User>({
+  const [user, setUser] = useState<NewUser>({
     email: "",
     firstName: "",
     lastName: "",

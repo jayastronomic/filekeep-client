@@ -1,17 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
-import { getFolder, getRootFolder } from "../../endpoints/FolderEndpoint";
+import { getFolder } from "../../endpoints/FolderEndpoint";
 import { MdOutlineFileUpload } from "react-icons/md";
 import ConsoleFolderContainer from "./ConsoleFolderContainer";
 import ConsoleFileContainer from "./ConsoleFIleContainer";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 import { Link } from "react-router";
+import { useContext } from "react";
+import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 
 const HomeFolder = () => {
-  const currentFolder = useGetCurrentFolder();
+  const { folderName, state } = useGetCurrentFolder();
+  const { rootFolderId } = useContext(ConsoleContext);
+  const currentFolderId = state ? state.currentFolderId : rootFolderId;
 
   const { data } = useQuery({
-    queryKey: [`get-root-folder`],
-    queryFn: getRootFolder,
+    queryKey: [`get-${folderName}`],
+    queryFn: () => getFolder(currentFolderId),
   });
 
   if (data) {
@@ -41,7 +45,7 @@ const HomeFolder = () => {
 
     return (
       <main className="flex flex-col h-full w-full p-4">
-        {currentFolder === "home" ? (
+        {folderName === "home" ? (
           <h1 className="text-2xl font-bold text-gray-400">All Files</h1>
         ) : (
           <Link
@@ -52,7 +56,7 @@ const HomeFolder = () => {
           </Link>
         )}
         <h2 className="text-3xl font-semibold text-gray-400 mb-4">
-          {currentFolder === "home" ? "" : currentFolder}
+          {folderName === "home" ? "" : folderName}
         </h2>
         {content}
       </main>

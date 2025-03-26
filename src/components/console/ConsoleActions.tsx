@@ -10,7 +10,9 @@ import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 import { syncHomeFolder } from "../../endpoints/FileEndpoint";
 
 const ConsoleActions = () => {
-  const currentFolder = useGetCurrentFolder();
+  const { rootFolderId } = useContext(ConsoleContext);
+  const { state, folderName } = useGetCurrentFolder();
+  const currentFolderId = state ? state.currentFolderId : rootFolderId;
   const selectFile = useRef<HTMLInputElement>(null);
   const syncFolder = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
@@ -34,16 +36,15 @@ const ConsoleActions = () => {
   ];
   const { setModal } = useContext(ConsoleContext);
 
-  const { mutate } = useMutation({
+  const { mutate: uploadFile } = useMutation({
     mutationFn: upload,
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: [`get-${currentFolder}`] }),
+      queryClient.invalidateQueries({ queryKey: [`get-${folderName}`] }),
   });
 
   const { mutate: sync } = useMutation({
     mutationFn: syncHomeFolder,
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: [`get-root-folder}`] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["get-home"] }),
   });
 
   const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -51,8 +52,8 @@ const ConsoleActions = () => {
       const selectedFile = e.target.files[0];
       const formData = new FormData();
       formData.append("file", selectedFile);
-      formData.append("folder_id", currentFolder);
-      mutate(formData);
+      formData.append("folder_id", currentFolderId);
+      uploadFile(formData);
     }
   };
 

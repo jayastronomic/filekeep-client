@@ -1,20 +1,25 @@
-import {
-  AriaAttributes,
-  ChangeEvent,
-  Dispatch,
-  DOMAttributes,
-  ReactNode,
-  SetStateAction,
-} from "react";
+import { ChangeEvent, Dispatch, ReactNode, SetStateAction } from "react";
 
 declare global {
-  interface User {
-    id?: string;
+  interface LoginData {
+    email: string;
+    password: string;
+  }
+
+  interface NewUser {
     email: string;
     firstName: string;
     lastName: string;
-    password?: string;
-    passwordConfirmation?: string;
+    password: string;
+    passwordConfirmation: string;
+  }
+
+  interface AuthUser {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    rootFolderId: string;
   }
 
   interface Asset {
@@ -100,7 +105,7 @@ declare global {
   }
 
   interface AuthContextData {
-    authUser: User | null;
+    authUser: AuthUser | null;
     isLoading?: boolean;
   }
 
@@ -116,6 +121,7 @@ declare global {
     setModal: Dispatch<SetStateAction<ModalsState>>;
     asset: FKFile | Folder;
     setAsset: Dispatch<SetStateAction<FKFile | Folder>>;
+    rootFolderId: string;
   };
 
   interface ConsoleProviderProps {
@@ -135,13 +141,13 @@ declare global {
 
   interface SignUpProps {
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    user: User;
+    user: NewUser;
     isPending: boolean;
   }
 
-  interface LogInPrps {
+  interface LogInProps {
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    user: User;
+    user: LoginData;
     isPending: boolean;
   }
 
@@ -272,6 +278,11 @@ declare global {
     viewBox?: string;
     height?: string;
     width?: string;
+  }
+
+  interface CurrentFolderData {
+    folderName: string;
+    state: { currentFolderId: string };
   }
 }
 
