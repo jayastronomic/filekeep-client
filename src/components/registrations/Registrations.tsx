@@ -1,12 +1,11 @@
 import { Link, useNavigate } from "react-router";
 import TextField from "../utility/TextField";
 import { useLocation } from "react-router";
-import { ChangeEvent, FC, FormEvent, useContext, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import AuthEndpoint from "../../endpoints/AuthEndpoint";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import FileKeepIcon from "../../components/home/FileKeepIcon";
 import ErrorBanner from "./ErrorBanner";
-import { AuthContext } from "../../components/contexts/AuthContext";
 
 const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
   const { email, password, passwordConfirmation, firstName, lastName } = user;

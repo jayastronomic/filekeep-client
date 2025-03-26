@@ -68,4 +68,15 @@ async function shareFile(file: ShareData): Promise<ApiResponse<string>> {
   return await response.json();
 }
 
-export { upload, downloadFile, deleteFile, shareFile };
+async function syncHomeFolder(formData: FormData) {
+  const response = await fetch(API + "/sync/manual", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: formData,
+  });
+  return await response.json();
+}
+
+export { upload, downloadFile, deleteFile, shareFile, syncHomeFolder };

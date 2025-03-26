@@ -12,8 +12,8 @@ async function createFolder(payload: NewFolder): Promise<ApiResponse<Folder>> {
   return await response.json();
 }
 
-async function getFolder(folderName: string): Promise<ApiResponse<Folder>> {
-  const response = await fetch(API + "/" + folderName, {
+async function getFolder(folderId: string): Promise<ApiResponse<Folder>> {
+  const response = await fetch(API + "/" + folderId, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -21,6 +21,17 @@ async function getFolder(folderName: string): Promise<ApiResponse<Folder>> {
   });
   return await response.json();
 }
+
+async function getRootFolder(): Promise<ApiResponse<Folder>> {
+  const response = await fetch(API + "/home", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return await response.json();
+}
+
 async function deleteFolder(id: string) {
   const response = await fetch(API + "/" + id, {
     method: "DELETE",
@@ -42,4 +53,22 @@ async function shareFolder(folder: ShareData): Promise<ApiResponse<string>> {
   return await response.json();
 }
 
-export { createFolder, getFolder, deleteFolder, shareFolder };
+async function syncHomeFolder(formData: FormData) {
+  const response = await fetch(API + "/sync/manual", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: formData,
+  });
+  return await response.json();
+}
+
+export {
+  createFolder,
+  getRootFolder,
+  getFolder,
+  deleteFolder,
+  shareFolder,
+  syncHomeFolder,
+};

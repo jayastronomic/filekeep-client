@@ -1,4 +1,11 @@
-import { ChangeEvent, Dispatch, ReactNode, SetStateAction } from "react";
+import {
+  AriaAttributes,
+  ChangeEvent,
+  Dispatch,
+  DOMAttributes,
+  ReactNode,
+  SetStateAction,
+} from "react";
 
 declare global {
   interface User {
@@ -158,6 +165,7 @@ declare global {
   type ConsoleAction = {
     label: string;
     icon: ReactNode;
+    action: (() => void) | undefined;
   };
 
   interface ConsoleFileContainerProps {

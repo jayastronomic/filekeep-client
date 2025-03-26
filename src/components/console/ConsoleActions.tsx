@@ -1,19 +1,38 @@
 import { MdOutlineFileUpload } from "react-icons/md";
 import { MdCreateNewFolder } from "react-icons/md";
 import ConsoleAction from "./ConsoleAction";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useContext, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { upload } from "../../endpoints/FileEndpoint";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
+import { FaSync } from "react-icons/fa";
+import { ConsoleContext } from "../../components/contexts/ConsoleContext";
+import { syncHomeFolder } from "../../endpoints/FileEndpoint";
 
 const ConsoleActions = () => {
   const currentFolder = useGetCurrentFolder();
-  const inputRef = useRef<HTMLInputElement>(null);
+  const selectFile = useRef<HTMLInputElement>(null);
+  const syncFolder = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const actions: ConsoleAction[] = [
-    { label: "Upload", icon: <MdOutlineFileUpload /> },
-    { label: "Create Folder", icon: <MdCreateNewFolder /> },
+    {
+      label: "Upload",
+      icon: <MdOutlineFileUpload />,
+      action: handleSelectFile,
+    },
+    {
+      label: "Create Folder",
+      icon: <MdCreateNewFolder />,
+      action: () =>
+        setModal((prev) => ({ ...prev, isCreateFolderModalOpen: true })),
+    },
+    {
+      label: "Sync Folder",
+      icon: <FaSync className="text-[0.75rem]" />,
+      action: handleSelectSyncFolder,
+    },
   ];
+  const { setModal } = useContext(ConsoleContext);
 
   const { mutate } = useMutation({
     mutationFn: upload,
@@ -21,28 +40,48 @@ const ConsoleActions = () => {
       queryClient.invalidateQueries({ queryKey: [`get-${currentFolder}`] }),
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const { mutate: sync } = useMutation({
+    mutationFn: syncHomeFolder,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: [`get-root-folder}`] }),
+  });
+
+  const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0];
       const formData = new FormData();
       formData.append("file", selectedFile);
-      formData.append("folder_name", currentFolder);
+      formData.append("folder_id", currentFolder);
       mutate(formData);
     }
   };
 
-  const clickHandler = () => {
-    inputRef.current?.click();
+  const handleFolderSync = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const files = e.target.files;
+      const formData = new FormData();
+      for (const file of files)
+        formData.append("files", file, file.webkitRelativePath);
+      sync(formData);
+    }
   };
+
+  function handleSelectFile() {
+    selectFile.current?.click();
+  }
+
+  function handleSelectSyncFolder() {
+    syncFolder.current?.click();
+  }
 
   return (
     <>
       <div className="flex space-x-2 p-6">
-        {actions.map(({ label, icon }) => {
+        {actions.map(({ label, icon, action }) => {
           return (
             <ConsoleAction
               key={label}
-              action={label === "Upload" ? clickHandler : undefined}
+              action={action}
               label={label}
               icon={icon}
             />
@@ -50,9 +89,17 @@ const ConsoleActions = () => {
         })}
       </div>
       <input
-        onChange={handleChange}
+        onChange={handleUploadFile}
         type="file"
-        ref={inputRef}
+        ref={selectFile}
+        className="hidden"
+      />
+      <input
+        onChange={handleFolderSync}
+        type="file"
+        webkitdirectory=""
+        directory=""
+        ref={syncFolder}
         className="hidden"
       />
     </>

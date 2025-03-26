@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate, useParams } from "react-router";
+import { Link, useLocation, useParams } from "react-router";
 import FileKeepIcon from "../../components/home/FileKeepIcon";
 import { useQuery } from "@tanstack/react-query";
 import { getShareableFile } from "../../endpoints/ShareableLinkEndpoint";

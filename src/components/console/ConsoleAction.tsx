@@ -1,22 +1,13 @@
-import { ConsoleContext } from "../../components/contexts/ConsoleContext";
-import { FC, useContext } from "react";
+import { FC } from "react";
 
 const ConsoleAction: FC<ConsoleActionProps> = ({ label, icon, action }) => {
-  const { setModal } = useContext(ConsoleContext);
   return (
     <button
-      onClick={
-        label === "Upload"
-          ? action
-          : () =>
-              setModal((prev) => ({ ...prev, isCreateFolderModalOpen: true }))
-      }
-      className="flex flex-col border border-gray-800 rounded-xl p-4 hover:bg-gray-800 transition shadow bg-[#151B23] text-white cursor-pointer"
+      onClick={action}
+      className="flex flex-col border border-gray-800 rounded-xl p-4 hover:bg-gray-800 transition shadow bg-[#151B23] text-white cursor-pointer space-y-1"
     >
-      <div>
-        <span>{label}</span>
-      </div>
-      <div>{icon}</div>
+      <span>{label}</span>
+      <span>{icon}</span>
     </button>
   );
 };
