@@ -8,6 +8,8 @@ import ProfileModal from "../../components/console/ProfileModal";
 import ShareModal from "../../components/console/ShareModal";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 import ManageLinkModal from "../../components/console/ManageLinkModal";
+import SyncFolderModal from "../../components/console/SyncFolderModal";
+
 const ConsoleLayout = () => {
   const {
     isNavModalOpen,
@@ -15,6 +17,7 @@ const ConsoleLayout = () => {
     isShareModalOpen,
     isCreateFolderModalOpen,
     isManageLinkModalOpen,
+    isSyncFolderModalOpen,
     setModal,
   } = useContext(ConsoleContext);
 
@@ -57,6 +60,7 @@ const ConsoleLayout = () => {
       {isProfileModalOpen && <ProfileModal />}
       {isShareModalOpen && <ShareModal />}
       {isManageLinkModalOpen && <ManageLinkModal />}
+      {isSyncFolderModalOpen && <SyncFolderModal />}
     </div>
   );
 };

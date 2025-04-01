@@ -11,6 +11,7 @@ const ConsoleProvider: FC<ConsoleProviderProps> = ({ children }) => {
     isProfileModalOpen: false,
     isShareModalOpen: false,
     isManageLinkModalOpen: false,
+    isSyncFolderModalOpen: false,
   });
 
   const [asset, setAsset] = useState({} as FKFile | Folder);

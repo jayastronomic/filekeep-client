@@ -69,6 +69,7 @@ async function shareFile(file: ShareData): Promise<ApiResponse<string>> {
 }
 
 async function syncHomeFolder(formData: FormData) {
+  console.log(formData.getAll("files"));
   const response = await fetch(API + "/sync/manual", {
     method: "POST",
     headers: {

@@ -44,7 +44,7 @@ declare global {
 
   interface NewFolder {
     folderName: string;
-    parentName: string;
+    parentFolderId: string;
   }
 
   interface SharedAccess {
@@ -104,6 +104,10 @@ declare global {
     folderData: Folder;
   }
 
+  interface SyncData {
+    folderPath: string;
+  }
+
   interface AuthContextData {
     authUser: AuthUser | null;
     isLoading?: boolean;
@@ -115,6 +119,7 @@ declare global {
     isProfileModalOpen: boolean;
     isShareModalOpen: boolean;
     isManageLinkModalOpen: boolean;
+    isSyncFolderModalOpen: boolean;
   }
 
   type ConsoleContextData = ModalsState & {

@@ -7,15 +7,15 @@ import { upload } from "../../endpoints/FileEndpoint";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 import { FaSync } from "react-icons/fa";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
-import { syncHomeFolder } from "../../endpoints/FileEndpoint";
 
 const ConsoleActions = () => {
   const { rootFolderId } = useContext(ConsoleContext);
   const { state, folderName } = useGetCurrentFolder();
   const currentFolderId = state ? state.currentFolderId : rootFolderId;
   const selectFile = useRef<HTMLInputElement>(null);
-  const syncFolder = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
+  const { setModal } = useContext(ConsoleContext);
+
   const actions: ConsoleAction[] = [
     {
       label: "Upload",
@@ -31,20 +31,15 @@ const ConsoleActions = () => {
     {
       label: "Sync Folder",
       icon: <FaSync className="text-[0.75rem]" />,
-      action: handleSelectSyncFolder,
+      action: () =>
+        setModal((prev) => ({ ...prev, isSyncFolderModalOpen: true })),
     },
   ];
-  const { setModal } = useContext(ConsoleContext);
 
   const { mutate: uploadFile } = useMutation({
     mutationFn: upload,
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: [`get-${folderName}`] }),
-  });
-
-  const { mutate: sync } = useMutation({
-    mutationFn: syncHomeFolder,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["get-home"] }),
   });
 
   const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,22 +52,8 @@ const ConsoleActions = () => {
     }
   };
 
-  const handleFolderSync = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const files = e.target.files;
-      const formData = new FormData();
-      for (const file of files)
-        formData.append("files", file, file.webkitRelativePath);
-      sync(formData);
-    }
-  };
-
   function handleSelectFile() {
     selectFile.current?.click();
-  }
-
-  function handleSelectSyncFolder() {
-    syncFolder.current?.click();
   }
 
   return (
@@ -93,14 +74,6 @@ const ConsoleActions = () => {
         onChange={handleUploadFile}
         type="file"
         ref={selectFile}
-        className="hidden"
-      />
-      <input
-        onChange={handleFolderSync}
-        type="file"
-        webkitdirectory=""
-        directory=""
-        ref={syncFolder}
         className="hidden"
       />
     </>

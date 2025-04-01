@@ -14,14 +14,14 @@ import { deleteFolder } from "../../endpoints/FolderEndpoint";
 const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
   const { pathname } = useLocation();
   const queryClient = useQueryClient();
-  const currentFolder = useGetCurrentFolder();
+  const { folderName } = useGetCurrentFolder();
   const [isOpen, setIsOpen] = useState<string | null>(null); //
   const endpoint = type === "file" ? deleteFile : deleteFolder;
 
   const { mutate } = useMutation({
     mutationFn: endpoint,
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: [`get-${currentFolder}`] });
+      queryClient.invalidateQueries({ queryKey: [`get-${folderName}`] });
     },
   });
 
