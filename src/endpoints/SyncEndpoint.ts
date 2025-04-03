@@ -1,5 +1,5 @@
 export default class SyncEndpoint {
-  private static API = import.meta.env.VITE_BACKEND_URL + "/api/v1/sync";
+  private static API = "http://localhost:3000/sync";
 
   public static async syncHomeFolder(
     data: SyncData
