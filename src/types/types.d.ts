@@ -11,7 +11,6 @@ declare global {
     firstName: string;
     lastName: string;
     password: string;
-    passwordConfirmation: string;
   }
 
   interface AuthUser {
@@ -287,6 +286,7 @@ declare global {
 
   interface CurrentFolderData {
     folderName: string;
+    pathname: string;
     state: { currentFolderId: string };
   }
 }

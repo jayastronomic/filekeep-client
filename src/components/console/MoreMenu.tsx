@@ -5,8 +5,9 @@ import { IoShareOutline } from "react-icons/io5";
 import { IoIosLink, IoIosGlobe } from "react-icons/io";
 import { FC, useContext, useState } from "react";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createShareableLink } from "../../endpoints/ShareableLinkEndpoint";
+import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 
 const MoreMenu: FC<MoreMenuProps> = ({
   type,
@@ -14,14 +15,18 @@ const MoreMenu: FC<MoreMenuProps> = ({
   setIsOpen,
   handleDelete,
 }) => {
+  const queryClient = useQueryClient();
+  const { pathname } = useGetCurrentFolder();
   const { setModal, setAsset } = useContext(ConsoleContext);
   const [shareableURL, setShareableURL] = useState("");
   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
   const { mutate } = useMutation({
     mutationFn: createShareableLink,
     onSuccess: ({ data }) => {
-      setShareableURL(data.shareableUrl);
+      const { shareableUrl } = data;
+      setShareableURL(shareableUrl);
       setIsLinkModalOpen(true);
+      queryClient.invalidateQueries({ queryKey: [`get-${pathname}`] });
     },
   });
   const assetName =
@@ -42,6 +47,8 @@ const MoreMenu: FC<MoreMenuProps> = ({
   const handleCopyLink = () => {
     mutate({ id: asset.id, type });
   };
+
+  console.log(asset);
 
   return (
     <>
@@ -90,9 +97,9 @@ const MoreMenu: FC<MoreMenuProps> = ({
                   <span className="flex items-center space-x-2">
                     <IoIosGlobe className="text-xs" />
                     <span className="text-xs text-gray-500">
-                      {asset.shareableLink.linkAccessType === "PUBLIC" &&
+                      {asset?.shareableLink?.linkAccessType === "PUBLIC" &&
                         "Anyone with this link can view"}
-                      {asset.shareableLink.linkAccessType === "PRIVATE" &&
+                      {asset?.shareableLink?.linkAccessType === "PRIVATE" &&
                         "Only you can view this link"}
                     </span>
                     <button onClick={handleManageLink} className="underline">

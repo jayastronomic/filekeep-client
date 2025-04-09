@@ -8,7 +8,7 @@ import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 
 const CreateFolderModal = () => {
   const { setModal, rootFolderId } = useContext(ConsoleContext);
-  const { folderName, state } = useGetCurrentFolder();
+  const { state, pathname } = useGetCurrentFolder();
   const currentFolderId = state ? state.currentFolderId : rootFolderId;
   const [folder, setFolder] = useState<NewFolder>({
     folderName: "",
@@ -19,7 +19,7 @@ const CreateFolderModal = () => {
   const { mutate: create } = useMutation({
     mutationFn: createFolder,
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: [`get-${folderName}`] });
+      queryClient.invalidateQueries({ queryKey: [`get-${pathname}`] });
     },
   });
 

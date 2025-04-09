@@ -4,5 +4,5 @@ export function useGetCurrentFolder(): CurrentFolderData {
   const { pathname, state } = useLocation();
   const paths = pathname.split("/");
   const currentFolder = paths[paths.length - 1];
-  return { folderName: currentFolder, state };
+  return { folderName: currentFolder, state, pathname };
 }

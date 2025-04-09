@@ -11,6 +11,7 @@ import ManageLinkModal from "../../components/console/ManageLinkModal";
 import SyncFolderModal from "../../components/console/SyncFolderModal";
 
 const ConsoleLayout = () => {
+  const { pathname } = useLocation();
   const {
     isNavModalOpen,
     isProfileModalOpen,
@@ -23,7 +24,6 @@ const ConsoleLayout = () => {
 
   const [consoleScrollPosition, setConsoleScrollPosition] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const { pathname } = useLocation();
 
   useEffect(() => {
     const resize = () => {
@@ -53,7 +53,7 @@ const ConsoleLayout = () => {
       <ConsoleNav />
       <main className="flex flex-col flex-1">
         <ConsoleControls consoleScrollPosition={consoleScrollPosition} />
-        <ConsoleActions />
+        {pathname !== "/shared" && <ConsoleActions />}
         <Outlet />
       </main>
       {isCreateFolderModalOpen && <CreateFolderModal />}

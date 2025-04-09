@@ -10,7 +10,7 @@ import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 
 const ConsoleActions = () => {
   const { rootFolderId } = useContext(ConsoleContext);
-  const { state, folderName } = useGetCurrentFolder();
+  const { state, pathname } = useGetCurrentFolder();
   const currentFolderId = state ? state.currentFolderId : rootFolderId;
   const selectFile = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
@@ -39,7 +39,7 @@ const ConsoleActions = () => {
   const { mutate: uploadFile } = useMutation({
     mutationFn: upload,
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: [`get-${folderName}`] }),
+      queryClient.invalidateQueries({ queryKey: [`get-${pathname}`] }),
   });
 
   const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {

@@ -1,7 +1,7 @@
 import { FaChevronDown } from "react-icons/fa6";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 import { FC, useContext, useState } from "react";
-import { IoCheckmark } from "react-icons/io5";
+import { IoCheckmark, IoClose } from "react-icons/io5";
 import { useMutation } from "@tanstack/react-query";
 import { updateShareableFileLink } from "../../endpoints/ShareableLinkEndpoint";
 import PopUp from "./PopUp";
@@ -11,7 +11,7 @@ const ManageLinkModal = () => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [isAccessDropDownOpen, setIsAccessDropDownOpen] = useState(false);
   const [access, setAccess] = useState({
-    linkAccessType: asset.shareableLink.linkAccessType,
+    linkAccessType: asset?.shareableLink?.linkAccessType,
   });
 
   const assetName = (asset as FKFile).fileName;
@@ -43,8 +43,19 @@ const ManageLinkModal = () => {
         className="absolute bg-black/50 h-full w-full"
       ></button>
       <div className="absolute flex flex-col p-8 h-full w-full md:max-w-[38rem] md:h-1/2 bg-[#151B23]">
-        <header className="text-2xl text-gray-100">
-          Settings for "{assetName}"
+        <header className="flex w-full justify-between text-2xl text-gray-100">
+          <span>Settings for "{assetName}"</span>
+          <button
+            onClick={() =>
+              setModal((prev) => ({
+                ...prev,
+                isManageLinkModalOpen: false,
+              }))
+            }
+            className="flex items-center justify-center hover:bg-gray-700 transition w-8 h-8 rounded-lg"
+          >
+            <IoClose className="text-gray-100 text-2xl" />
+          </button>
         </header>
         <div className="flex flex-col border-gray-800 border rounded mt-8">
           <div className="text-gray-300 text-sm p-4 bg-gray-900 font-semibold">

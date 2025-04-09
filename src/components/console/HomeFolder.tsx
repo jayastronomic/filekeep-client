@@ -9,12 +9,12 @@ import { useContext } from "react";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 
 const HomeFolder = () => {
-  const { folderName, state } = useGetCurrentFolder();
+  const { folderName, state, pathname } = useGetCurrentFolder();
   const { rootFolderId } = useContext(ConsoleContext);
   const currentFolderId = state ? state.currentFolderId : rootFolderId;
 
   const { data } = useQuery({
-    queryKey: [`get-${folderName}`],
+    queryKey: [`get-${pathname}`],
     queryFn: () => getFolder(currentFolderId),
   });
 

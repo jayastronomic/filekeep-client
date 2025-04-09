@@ -8,7 +8,9 @@ import FileKeepIcon from "../../components/home/FileKeepIcon";
 import ErrorBanner from "./ErrorBanner";
 
 const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
-  const { email, password, passwordConfirmation, firstName, lastName } = user;
+  const { email, password, firstName, lastName } = user;
+
+  console.log(user);
   return (
     <div className="w-full space-y-4">
       <TextField
@@ -41,14 +43,6 @@ const SignUp: FC<SignUpProps> = ({ handleChange, user, isPending }) => {
         name="password"
         handleChange={handleChange}
         value={password || ""}
-        required
-      />
-      <TextField
-        type="password"
-        label="password confirmation"
-        name="passwordConfirmation"
-        handleChange={handleChange}
-        value={passwordConfirmation || ""}
         required
       />
       <button
@@ -119,7 +113,6 @@ const Registrations: FC<RegistrationsProps> = ({
     firstName: "",
     lastName: "",
     password: "",
-    passwordConfirmation: "",
   });
   const navigate = useNavigate();
   const queryClient = useQueryClient();

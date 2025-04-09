@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
@@ -12,16 +12,15 @@ import MoreMenu from "./MoreMenu";
 import { deleteFolder } from "../../endpoints/FolderEndpoint";
 
 const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
-  const { pathname } = useLocation();
   const queryClient = useQueryClient();
-  const { folderName } = useGetCurrentFolder();
+  const { pathname } = useGetCurrentFolder();
   const [isOpen, setIsOpen] = useState<string | null>(null); //
   const endpoint = type === "file" ? deleteFile : deleteFolder;
 
   const { mutate } = useMutation({
     mutationFn: endpoint,
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: [`get-${folderName}`] });
+      queryClient.invalidateQueries({ queryKey: [`get-${pathname}`] });
     },
   });
 
