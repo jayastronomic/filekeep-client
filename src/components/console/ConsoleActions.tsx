@@ -45,6 +45,7 @@ const ConsoleActions = () => {
   const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0];
+      console.log(selectedFile);
       const formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("folder_id", currentFolderId);

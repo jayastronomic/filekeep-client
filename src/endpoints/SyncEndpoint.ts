@@ -1,5 +1,5 @@
 export default class SyncEndpoint {
-  private static API = "http://localhost:3000/sync";
+  private static API = "http://localhost:9292/sync";
 
   public static async syncHomeFolder(
     data: SyncData

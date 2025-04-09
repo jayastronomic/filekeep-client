@@ -53,7 +53,7 @@ const ConsoleLayout = () => {
       <ConsoleNav />
       <main className="flex flex-col flex-1">
         <ConsoleControls consoleScrollPosition={consoleScrollPosition} />
-        {pathname === "/home" && <ConsoleActions />}
+        <ConsoleActions />
         <Outlet />
       </main>
       {isCreateFolderModalOpen && <CreateFolderModal />}
