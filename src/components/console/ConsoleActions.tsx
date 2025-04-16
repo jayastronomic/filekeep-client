@@ -1,14 +1,16 @@
 import { MdOutlineFileUpload } from "react-icons/md";
 import { MdCreateNewFolder } from "react-icons/md";
 import ConsoleAction from "./ConsoleAction";
-import { ChangeEvent, useContext, useRef } from "react";
+import { ChangeEvent, useContext, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { upload } from "../../endpoints/FileEndpoint";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 import { FaSync } from "react-icons/fa";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
+import { IoClose } from "react-icons/io5";
 
 const ConsoleActions = () => {
+  const [error, setError] = useState("");
   const { rootFolderId } = useContext(ConsoleContext);
   const { state, pathname } = useGetCurrentFolder();
   const currentFolderId = state ? state.currentFolderId : rootFolderId;
@@ -40,6 +42,10 @@ const ConsoleActions = () => {
     mutationFn: upload,
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: [`get-${pathname}`] }),
+    onError: (err) => {
+      if (err.name === "MaxFileStorage")
+        setError("Max File Storage Capacity Reached");
+    },
   });
 
   const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +64,7 @@ const ConsoleActions = () => {
   }
 
   return (
-    <>
+    <div>
       <div className="flex space-x-2 p-6">
         {actions.map(({ label, icon, action }) => {
           return (
@@ -71,13 +77,23 @@ const ConsoleActions = () => {
           );
         })}
       </div>
+      <div className="px-6">
+        {error && (
+          <div className="flex justify-between items-center text-gray-200 border border-red-700 bg-[rgba(255,0,0,0.1)] p-2 rounded text-sm w-full">
+            <span>{error}</span>
+            <button onClick={() => setError("")}>
+              <IoClose />
+            </button>
+          </div>
+        )}
+      </div>
       <input
         onChange={handleUploadFile}
         type="file"
         ref={selectFile}
         className="hidden"
       />
-    </>
+    </div>
   );
 };
 

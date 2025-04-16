@@ -10,45 +10,51 @@ import { AuthContext } from "../../components/contexts/AuthContext";
 import Registrations from "../../components/registrations/Registrations";
 import RequestAccessSVG from "../../components/assets/RequestAccessSVG";
 import FileKeepTextSvg from "../../components/home/FileKeepTextSvg";
+import NotFound from "../../components/errors/NotFound";
 
 const ShareableLinkPage: FC = () => {
   const { token } = useParams();
   const { authUser } = useContext(AuthContext);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["get-shareable-file"],
     queryFn: () => getShareableFile(token!),
+    retry: false,
   });
-  const { data: fileData } = data || {};
 
-  const needsAuthentication =
-    fileData?.linkAccessType === "PRIVATE" && !authUser;
+  if (error && error.name === "NotFoundError") return <NotFound />;
 
-  const isPrivate =
-    fileData?.linkAccessType === "PRIVATE" &&
-    fileData?.ownerId !== authUser?.id;
+  if (data) {
+    const { data: fileData } = data;
+    const needsAuthentication =
+      fileData.linkAccessType === "PRIVATE" && !authUser;
 
-  return (
-    <main className="h-full w-full flex flex-col bg-[#0d1117] overflow-auto">
-      {needsAuthentication ? (
-        <Protected token={token || ""} assetName={fileData.fileName}>
-          <FileView />
-        </Protected>
-      ) : (
-        <>
-          {isLoading ? (
-            <div className="flex w-full h-full items-center justify-center">
-              <MoonLoader color="gray" />
-            </div>
-          ) : isPrivate ? (
-            <RequestAcess />
-          ) : (
-            <FileView fileData={fileData} />
-          )}
-        </>
-      )}
-    </main>
-  );
+    const isPrivate =
+      fileData.linkAccessType === "PRIVATE" &&
+      fileData.ownerId !== authUser?.id;
+
+    return (
+      <main className="h-full w-full flex flex-col bg-[#0d1117] overflow-auto">
+        {needsAuthentication ? (
+          <Protected token={token || ""} assetName={fileData.fileName}>
+            <FileView />
+          </Protected>
+        ) : (
+          <>
+            {isLoading ? (
+              <div className="flex w-full h-full items-center justify-center">
+                <MoonLoader color="gray" />
+              </div>
+            ) : isPrivate ? (
+              <RequestAcess />
+            ) : (
+              <FileView fileData={fileData} />
+            )}
+          </>
+        )}
+      </main>
+    );
+  }
 };
 
 const RequestAcess: FC = () => {

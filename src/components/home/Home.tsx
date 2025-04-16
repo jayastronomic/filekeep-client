@@ -16,8 +16,22 @@ const Home = () => {
         </div>
         <RegistrationLinks />
       </div>
-      <div className="absolute bottom-4 right-4 magz text-white">
-        powered by jayastronomic
+      <div className="flex justify-between absolute bottom-0 w-full  px-3 pb-4">
+        <a
+          href="https://codingchallenges.fyi/challenges/challenge-dropbox"
+          className="flex items-center space-x-2"
+        >
+          <div className="rounded-full overflow-hidden shadow shadow-gray-400 border border-gray-600">
+            <img src="./images/john.jpeg" className="w-16 h-16 object-cover" />
+          </div>
+          <div className=" flex flex-col text-white text-[12px] geo-sans">
+            <div>John Crickett</div>
+            <div className="pl-1">Coding Challenge</div>
+          </div>
+        </a>
+        <div className="magz text-sm text-white self-end">
+          powered by jayastronomic
+        </div>
       </div>
     </div>
   );

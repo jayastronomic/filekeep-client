@@ -5,8 +5,9 @@ import { IoShareOutline } from "react-icons/io5";
 import { IoIosLink, IoIosGlobe } from "react-icons/io";
 import { FC, useContext, useState } from "react";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { createShareableLink } from "../../endpoints/ShareableLinkEndpoint";
+import { useQueryClient } from "@tanstack/react-query";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 
 const MoreMenu: FC<MoreMenuProps> = ({
@@ -18,15 +19,12 @@ const MoreMenu: FC<MoreMenuProps> = ({
   const queryClient = useQueryClient();
   const { pathname } = useGetCurrentFolder();
   const { setModal, setAsset } = useContext(ConsoleContext);
-  const [shareableURL, setShareableURL] = useState("");
   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
   const { mutate } = useMutation({
     mutationFn: createShareableLink,
-    onSuccess: ({ data }) => {
-      const { shareableUrl } = data;
-      setShareableURL(shareableUrl);
-      setIsLinkModalOpen(true);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`get-${pathname}`] });
+      setIsLinkModalOpen(true);
     },
   });
   const assetName =
@@ -45,10 +43,9 @@ const MoreMenu: FC<MoreMenuProps> = ({
   };
 
   const handleCopyLink = () => {
-    mutate({ id: asset.id, type });
+    if (asset.shareableLink) setIsLinkModalOpen(true);
+    else mutate({ id: asset.id, type });
   };
-
-  console.log(asset);
 
   return (
     <>
@@ -91,15 +88,15 @@ const MoreMenu: FC<MoreMenuProps> = ({
                   <input
                     autoFocus
                     className="ring-2 rounded-md px-2 py-1 caret-transparent text-xs"
-                    value={shareableURL}
+                    value={asset.shareableLink?.shareableUrl}
                     readOnly
                   />
                   <span className="flex items-center space-x-2">
                     <IoIosGlobe className="text-xs" />
                     <span className="text-xs text-gray-500">
-                      {asset?.shareableLink?.linkAccessType === "PUBLIC" &&
+                      {asset.shareableLink?.linkAccessType === "PUBLIC" &&
                         "Anyone with this link can view"}
-                      {asset?.shareableLink?.linkAccessType === "PRIVATE" &&
+                      {asset.shareableLink?.linkAccessType === "PRIVATE" &&
                         "Only you can view this link"}
                     </span>
                     <button onClick={handleManageLink} className="underline">

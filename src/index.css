@@ -24,10 +24,19 @@ button {
   src: url("/fonts/Magz.otf");
 }
 
+@font-face {
+  font-family: "Geo-Sans";
+  src: url("/fonts/GeosansLight.ttf");
+}
+
 .louis {
   font-family: "Louis";
 }
 
 .magz {
   font-family: Magz;
+}
+
+.geo-sans {
+  font-family: "Geo-Sans";
 }

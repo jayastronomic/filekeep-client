@@ -1,3 +1,5 @@
+import { NotFoundError } from "./errors/NotFoundError";
+
 const API = import.meta.env.VITE_BACKEND_URL + "/api/v1/shareable_links";
 
 async function createShareableLink(
@@ -19,7 +21,11 @@ async function getShareableFile(
   token: string
 ): Promise<ApiResponse<ShareableFileData>> {
   const response = await fetch(API + "/file?token=" + token);
-  return await response.json();
+  const data = await response.json();
+  if (!response.ok) {
+    throw new NotFoundError(data.message);
+  }
+  return data;
 }
 
 async function getShareableFolder(

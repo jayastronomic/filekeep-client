@@ -24,7 +24,7 @@ declare global {
   interface Asset {
     id: string;
     whoCanAccess: number;
-    shareableLink: ShareableLinkData;
+    shareableLink: ShareableLinkData | null;
   }
 
   interface Folder extends Asset {

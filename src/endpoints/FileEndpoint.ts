@@ -1,3 +1,5 @@
+import { MaxFileStorageError } from "./errors/MaxFileStorageError";
+
 const API = import.meta.env.VITE_BACKEND_URL + "/api/v1/files";
 
 async function upload(payload: FormData): Promise<ApiResponse<string>> {
@@ -8,7 +10,10 @@ async function upload(payload: FormData): Promise<ApiResponse<string>> {
     },
     body: payload,
   });
-  return await response.json();
+  const data = await response.json();
+  if (response.status === 413) throw new MaxFileStorageError(data.message);
+
+  return data;
 }
 
 async function downloadFile({ fileKey, fileName }: FKFile) {

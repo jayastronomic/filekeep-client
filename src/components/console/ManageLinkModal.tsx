@@ -11,14 +11,14 @@ const ManageLinkModal = () => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [isAccessDropDownOpen, setIsAccessDropDownOpen] = useState(false);
   const [access, setAccess] = useState({
-    linkAccessType: asset?.shareableLink?.linkAccessType,
+    linkAccessType: asset.shareableLink!.linkAccessType,
   });
 
   const assetName = (asset as FKFile).fileName;
 
   const { mutate, isPending, isIdle, isSuccess } = useMutation({
     mutationFn: () =>
-      updateShareableFileLink(access, asset.shareableLink.token),
+      updateShareableFileLink(access, asset.shareableLink!.token),
     onSuccess: ({ data }) => {
       setAsset(data);
       setShowPopUp(true);
@@ -96,10 +96,10 @@ const ManageLinkModal = () => {
             onClick={handleSave}
             type="button"
             disabled={
-              access.linkAccessType === asset.shareableLink.linkAccessType
+              access.linkAccessType === asset.shareableLink!.linkAccessType
             }
             className={`text-white font-semibold  p-2 rounded-md ${
-              access.linkAccessType === asset.shareableLink.linkAccessType
+              access.linkAccessType === asset.shareableLink!.linkAccessType
                 ? "bg-gray-700 opacity-30 cursor-not-allowed border border-transparent"
                 : "bg-gray-900 opacity-100 border border-gray-800"
             }`}
