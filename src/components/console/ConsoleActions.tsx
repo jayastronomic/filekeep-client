@@ -8,15 +8,40 @@ import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 import { FaSync } from "react-icons/fa";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 import { IoClose } from "react-icons/io5";
+import SyncEndpoint from "../../endpoints/SyncEndpoint";
 
 const ConsoleActions = () => {
   const [error, setError] = useState("");
-  const { rootFolderId } = useContext(ConsoleContext);
+  const { rootFolderId, syncStatus, setSyncStatus } =
+    useContext(ConsoleContext);
   const { state, pathname } = useGetCurrentFolder();
   const currentFolderId = state ? state.currentFolderId : rootFolderId;
   const selectFile = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const { setModal } = useContext(ConsoleContext);
+
+  const syncAction = () => {
+    if (syncStatus === "unsynced") {
+      return {
+        label: "Sync Folder",
+        icon: <FaSync className="text-[0.75rem]" />,
+        action: () =>
+          setModal((prev) => ({ ...prev, isSyncFolderModalOpen: true })),
+      };
+    } else if (syncStatus === "pending") {
+      return {
+        label: "Syncing...",
+        icon: <FaSync className="text-[0.75rem] animate-spin" />,
+        action: () => {},
+      };
+    } else {
+      return {
+        label: "Unsync Folder",
+        icon: <FaSync className="text-[0.75rem]" />,
+        action: () => stopSync(),
+      };
+    }
+  };
 
   const actions: ConsoleAction[] = [
     {
@@ -30,12 +55,7 @@ const ConsoleActions = () => {
       action: () =>
         setModal((prev) => ({ ...prev, isCreateFolderModalOpen: true })),
     },
-    {
-      label: "Sync Folder",
-      icon: <FaSync className="text-[0.75rem]" />,
-      action: () =>
-        setModal((prev) => ({ ...prev, isSyncFolderModalOpen: true })),
-    },
+    syncAction(),
   ];
 
   const { mutate: uploadFile } = useMutation({
@@ -48,15 +68,31 @@ const ConsoleActions = () => {
     },
   });
 
+  const { mutate: stopSync } = useMutation({
+    mutationFn: SyncEndpoint.stopSync,
+    onSettled() {
+      setSyncStatus("unsynced");
+    },
+  });
+
   const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      const selectedFile = e.target.files[0];
-      console.log(selectedFile);
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-      formData.append("folder_id", currentFolderId);
-      uploadFile(formData);
+      const selectedFile: File = e.target.files[0];
+      if (isImageOrText(selectedFile)) {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        formData.append("folder_id", currentFolderId);
+        uploadFile(formData);
+      } else {
+        setError("File MIME Type Must Be Image or Text");
+      }
     }
+  };
+
+  const isImageOrText = (selectedFile: File): boolean => {
+    const type = selectedFile.type.split("/")[0];
+    if (type === "text" || type === "image") return true;
+    else return false;
   };
 
   function handleSelectFile() {
@@ -66,14 +102,9 @@ const ConsoleActions = () => {
   return (
     <div>
       <div className="flex space-x-2 p-6">
-        {actions.map(({ label, icon, action }) => {
+        {actions.map(({ label, icon, action }, i) => {
           return (
-            <ConsoleAction
-              key={label}
-              action={action}
-              label={label}
-              icon={icon}
-            />
+            <ConsoleAction key={i} action={action} label={label} icon={icon} />
           );
         })}
       </div>

@@ -6,22 +6,25 @@ import { IoClose } from "react-icons/io5";
 import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 
 const SyncFolderModal = () => {
-  const { setModal } = useContext(ConsoleContext);
+  const { setModal, setSyncStatus } = useContext(ConsoleContext);
   const [folderPath, setFolderPath] = useState("");
   const queryClient = useQueryClient();
 
   const { mutate: sync } = useMutation({
-    mutationFn: SyncEndpoint.syncHomeFolder,
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["get-home"] });
+    mutationFn: SyncEndpoint.startSync,
+    onMutate() {
+      setSyncStatus("pending");
+      setModal((prev) => ({ ...prev, isSyncFolderModalOpen: false }));
+    },
+    onSettled() {
+      setSyncStatus("synced");
+      queryClient.invalidateQueries({ queryKey: ["get-/home"] });
     },
   });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     sync({ folderPath });
-    setModal((prev) => ({ ...prev, isSyncFolderModalOpen: false }));
   };
 
   return (

@@ -126,6 +126,8 @@ declare global {
     asset: FKFile | Folder;
     setAsset: Dispatch<SetStateAction<FKFile | Folder>>;
     rootFolderId: string;
+    syncStatus: "unsynced" | "synced" | "pending";
+    setSyncStatus: Dispatch<SetStateAction<"unsynced" | "synced" | "pending">>;
   };
 
   interface ConsoleProviderProps {
@@ -167,14 +169,14 @@ declare global {
   }
 
   interface ConsoleActionProps {
-    label: string;
-    icon: ReactNode;
+    label: string | JSX.Element;
+    icon: ReactNode | null;
     action: (() => void) | undefined;
   }
 
   type ConsoleAction = {
-    label: string;
-    icon: ReactNode;
+    label: string | JSX.Element;
+    icon: ReactNode | null;
     action: (() => void) | undefined;
   };
 

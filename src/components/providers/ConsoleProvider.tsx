@@ -13,6 +13,9 @@ const ConsoleProvider: FC<ConsoleProviderProps> = ({ children }) => {
     isManageLinkModalOpen: false,
     isSyncFolderModalOpen: false,
   });
+  const [syncStatus, setSyncStatus] = useState<
+    "unsynced" | "synced" | "pending"
+  >("unsynced");
 
   const [asset, setAsset] = useState({} as FKFile | Folder);
 
@@ -24,6 +27,8 @@ const ConsoleProvider: FC<ConsoleProviderProps> = ({ children }) => {
         asset,
         setAsset,
         rootFolderId,
+        syncStatus,
+        setSyncStatus,
       }}
     >
       {children}
