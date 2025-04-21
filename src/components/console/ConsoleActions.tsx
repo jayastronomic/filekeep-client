@@ -55,7 +55,7 @@ const ConsoleActions = () => {
       action: () =>
         setModal((prev) => ({ ...prev, isCreateFolderModalOpen: true })),
     },
-    syncAction(),
+    import.meta.env.PROD ? ({} as ConsoleAction) : syncAction(),
   ];
 
   const { mutate: uploadFile } = useMutation({
@@ -103,9 +103,16 @@ const ConsoleActions = () => {
     <div>
       <div className="flex space-x-2 p-6">
         {actions.map(({ label, icon, action }, i) => {
-          return (
-            <ConsoleAction key={i} action={action} label={label} icon={icon} />
-          );
+          if (label)
+            return (
+              <ConsoleAction
+                key={i}
+                action={action}
+                label={label}
+                icon={icon}
+              />
+            );
+          else return null;
         })}
       </div>
       <div className="px-6">
