@@ -88,7 +88,10 @@ const MoreMenu: FC<MoreMenuProps> = ({
                   <input
                     autoFocus
                     className="ring-2 rounded-md px-2 py-1 caret-transparent text-xs"
-                    value={asset.shareableLink?.shareableUrl}
+                    value={
+                      import.meta.env.VITE_HOST_URL +
+                      asset.shareableLink?.shareableUrl
+                    }
                     readOnly
                   />
                   <span className="flex items-center space-x-2">
