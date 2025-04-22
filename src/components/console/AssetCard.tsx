@@ -26,11 +26,11 @@ const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
 
   const getFileIcon = (mimeType: string) => {
     switch (mimeType) {
-      case "text/plain":
+      case "text":
         return <RiFileList2Fill />;
-      case "application/pdf":
+      case "application":
         return <TbPdf />;
-      case "image/png":
+      case "image":
         return <FaImage />;
       default:
         return;
@@ -55,7 +55,7 @@ const AssetCard: FC<AssetCardProps> = ({ asset, type }) => {
         className="relative flex border-b border-gray-700 py-4 hover:bg-gray-800 text-gray-200 items-center space-x-2 pl-2 pr-10 text-sm"
       >
         <div className="w-1/2 flex space-x-2">
-          <div className="text-2xl">{getFileIcon(mimeType)}</div>
+          <div className="text-2xl">{getFileIcon(mimeType.split("/")[0])}</div>
           <div className="truncate">{fileName}</div>
         </div>
         <div className="w-1/2 text-sm">

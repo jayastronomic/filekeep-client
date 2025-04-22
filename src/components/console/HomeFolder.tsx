@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getFolder } from "../../endpoints/FolderEndpoint";
 import { MdOutlineFileUpload } from "react-icons/md";
 import ConsoleFolderContainer from "./ConsoleFolderContainer";
-import ConsoleFileContainer from "./ConsoleFIleContainer";
+import ConsoleFileContainer from "./ConsoleFileContainer";
 import { useGetCurrentFolder } from "../../hooks/useGetCurrentFolder";
 import { Link } from "react-router";
 import { useContext } from "react";
@@ -10,12 +10,15 @@ import { ConsoleContext } from "../../components/contexts/ConsoleContext";
 
 const HomeFolder = () => {
   const { folderName, state, pathname } = useGetCurrentFolder();
-  const { rootFolderId } = useContext(ConsoleContext);
+  const { rootFolderId, syncStatus } = useContext(ConsoleContext);
   const currentFolderId = state ? state.currentFolderId : rootFolderId;
 
   const { data } = useQuery({
     queryKey: [`get-${pathname}`],
     queryFn: () => getFolder(currentFolderId),
+    refetchInterval: () => {
+      return syncStatus === "on" ? 5000 : false;
+    },
   });
 
   if (data) {
