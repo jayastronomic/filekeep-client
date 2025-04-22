@@ -21,7 +21,7 @@ const ConsoleActions = () => {
   const { setModal } = useContext(ConsoleContext);
 
   const syncAction = () => {
-    if (syncStatus === "unsynced") {
+    if (syncStatus === "off") {
       return {
         label: "Sync Folder",
         icon: <FaSync className="text-[0.75rem]" />,
@@ -71,7 +71,7 @@ const ConsoleActions = () => {
   const { mutate: stopSync } = useMutation({
     mutationFn: SyncEndpoint.stopSync,
     onSettled() {
-      setSyncStatus("unsynced");
+      setSyncStatus("off");
     },
   });
 

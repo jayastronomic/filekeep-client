@@ -126,8 +126,8 @@ declare global {
     asset: FKFile | Folder;
     setAsset: Dispatch<SetStateAction<FKFile | Folder>>;
     rootFolderId: string;
-    syncStatus: "unsynced" | "synced" | "pending";
-    setSyncStatus: Dispatch<SetStateAction<"unsynced" | "synced" | "pending">>;
+    syncStatus: "off" | "on" | "pending";
+    setSyncStatus: Dispatch<SetStateAction<"off" | "on" | "pending">>;
   };
 
   interface ConsoleProviderProps {

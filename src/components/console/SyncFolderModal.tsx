@@ -17,7 +17,7 @@ const SyncFolderModal = () => {
       setModal((prev) => ({ ...prev, isSyncFolderModalOpen: false }));
     },
     onSettled() {
-      setSyncStatus("synced");
+      setSyncStatus("on");
       queryClient.invalidateQueries({ queryKey: ["get-/home"] });
     },
   });
