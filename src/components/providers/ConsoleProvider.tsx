@@ -8,6 +8,7 @@ const ConsoleProvider: FC<ConsoleProviderProps> = ({ children }) => {
   const { data } = useQuery({
     queryKey: ["sync-status"],
     queryFn: SyncEndpoint.syncStatus,
+    enabled: import.meta.env.DEV,
   });
 
   const { authUser } = useContext(AuthContext);
