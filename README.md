@@ -22,6 +22,13 @@ FileKeep is a Dropbox clone built as a solution to the [John Cricket Coding Chal
 
 ## 📦 Getting Started
 
+### ⚠️ Start the Backend First
+
+Before running the client, make sure the [FileKeep API](https://github.com/jayastronomic/filekeep-api) is up and running.  
+You can start it with Docker (or your preferred setup) by following the instructions in its repository.
+
+The frontend depends on the backend to fetch files, folders, and perform other operations.
+
 ### Prerequisites
 
 Make sure you have the following installed:
@@ -54,7 +61,7 @@ This project is built as a solution to the **Build Your Own Dropbox** challenge 
 
 > Building a simplified version of Dropbox that supports file uploads, downloads, folder management, and link sharing — optionally including syncing capabilities with a local folder.
 
-## 📌 Roadmap / To-Do
+## 📌 Objectives
 
 - Add user authentication
 - Implement folder creation
