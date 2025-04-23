@@ -24,7 +24,7 @@ FileKeep is a Dropbox clone built as a solution to the [John Cricket Coding Chal
 
 ### ⚠️ Start the API and Sync Service First
 
-Before running the client, make sure the [FileKeep API](https://github.com/jayastronomic/filekeep-api) and the [Filekeep Sync Service](https://github.com/jayastronomic/filekeep-sync-service)is up and running.
+Before running the client, make sure the [FileKeep API](https://github.com/jayastronomic/filekeep-api) and the [Filekeep Sync Service](https://github.com/jayastronomic/filekeep-sync-service) is up and running.
 
 The frontend depends on the backend to fetch files, folders, and perform other operations and also depends the synce service to sync local files to the remote api.
 
